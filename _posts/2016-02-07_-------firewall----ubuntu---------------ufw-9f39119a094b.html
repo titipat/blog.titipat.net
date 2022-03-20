@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>ใช้งาน firewall บน ubuntu แบบง่ายๆ ด้วย ufw</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">ใช้งาน firewall บน ubuntu แบบง่ายๆ ด้วย ufw</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="095c" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="5705" id="5705" class="graf graf--h3 graf--leading graf--title">ใช้งาน firewall บน ubuntu แบบง่ายๆ ด้วย ufw</h3><p name="335c" id="335c" class="graf graf--p graf-after--h3">ufw นั้นย่อมาจาก uncomplicated firewall หรือ firewall ที่ไม่ยุ่งยากนั้นเอง จากประสบการณ์การใช้งาน linux ของผมคิดว่าตัวนี้ใช้ง่ายที่สุดแล้วล่ะ ง่ายกว่า firewall-cmd ของฝั่ง centos อีกแหละ แต่ด้วยความที่มันออกแบบมาให้ง่ายเลยอาจจะไม่รองรับการตั้งค่าที่ซับซ้อนสูงๆ นะ</p><p name="2ad1" id="2ad1" class="graf graf--p graf-after--p">ทุกวันนี้ผมเชื่อว่าหลายๆ ที่ก็คงมี firewall อยู่แล้ว แต่เพื่อความปลอดภัยตั้งไว้ที่ host อีกชั้นจะเป็นไรไป เผื่อวันดีคืนดี main firewall บึ้มไปจะได้ยังคงมีชีวิตรอดจากผู้ไม่ประสงค์ดีได้</p><h4 name="d9ad" id="d9ad" class="graf graf--h4 graf-after--p">การเปิด/ปิด ufw</h4><p name="4734" id="4734" class="graf graf--p graf-after--h4">โดย default แล้วมันจะถูกปิดไว้ เราสามารถเปิดด้วยคำสั่งนี้ แต่ช้าก่อนถ้าคุณเปิดมันโดยยังไม่ได้อนุญาต ssh อาจจะงานเข้าได้</p><pre name="6823" id="6823" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw enable</code></pre><p name="8e07" id="8e07" class="graf graf--p graf-after--pre">ส่วนการปิดก็</p><pre name="3a51" id="3a51" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw disable</code></pre><h4 name="c0ed" id="c0ed" class="graf graf--h4 graf-after--pre">การแสดงกฏทั้งหมด</h4><p name="3fc6" id="3fc6" class="graf graf--p graf-after--h4">ใช้ numbered เพื่อแสดงเลขบรรทัด</p><pre name="1ccc" id="1ccc" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw status [numbered|verbose]</code></pre><h4 name="ee7e" id="ee7e" class="graf graf--h4 graf-after--pre">การสร้างกฏ</h4><p name="8b7f" id="8b7f" class="graf graf--p graf-after--h4">syntax สำหรับการกฏว่าจะอนุญาตหรือไม่อนุญาตจะต่างกันแค่ allow กับ deny เท่านั้นใน syntax แบบเดียวกัน</p><p name="5757" id="5757" class="graf graf--p graf-after--p">ตัวอย่างการอนุญาต ssh</p><pre name="991e" id="991e" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw allow ssh</code></pre><p name="750d" id="750d" class="graf graf--p graf-after--pre">ตัวอย่างการไม่อนุญาต port 777 แบบ tcp</p><pre name="7211" id="7211" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw deny 777/tcp</code></pre><h4 name="4e6d" id="4e6d" class="graf graf--h4 graf-after--pre">การแทรกกฏ</h4><p name="4172" id="4172" class="graf graf--p graf-after--h4">ด้วยความที่มันยังคงทำงานแบบ access list ที่อ่านจากบนมาล่างอยู่ ดังนั้นเราควรจะเรียนรู้การแทรกกฏไว้ด้วย โดยใช้</p><pre name="5a0c" id="5a0c" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code u-paddingRight0 u-marginRight0">ufw insert</code></pre><p name="fc10" id="fc10" class="graf graf--p graf-after--pre">เช่น จะเพิ่มกฏนี้ในบรรทัดที่ 5</p><pre name="301a" id="301a" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw insert 5 allow https</code></pre><h4 name="7e5e" id="7e5e" class="graf graf--h4 graf-after--pre">การลบกฏ</h4><p name="762d" id="762d" class="graf graf--p graf-after--h4">คล้ายกับ cisco เลยที่เพิ่มคำว่า delete เข้าไปแล้วตามด้วยกฏที่ต้องการลบ</p><p name="55dd" id="55dd" class="graf graf--p graf-after--p">เช่น ถ้าต้องการลบ การไม่อนุญาต port 777 แบบ tcp</p><pre name="5d0e" id="5d0e" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw delete deny 777/tcp</code></pre><p name="4f5a" id="4f5a" class="graf graf--p graf-after--pre">หรือถ้าต้องการลบแบบบรรทัดก็ใช้</p><pre name="aba7" id="aba7" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code u-paddingRight0 u-marginRight0">ufw delete</code></pre><p name="68fe" id="68fe" class="graf graf--p graf-after--pre">เช่น จะลบบรรทัดที่ 5</p><pre name="ab47" id="ab47" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw delete 5</code></pre><h4 name="d214" id="d214" class="graf graf--h4 graf-after--pre">มาเล่นท่ายากกันหน่อยด้วยกฏแบบเฉพาะ address</h4><p name="50fb" id="50fb" class="graf graf--p graf-after--h4">จะมี syntax ดังนี้</p><pre name="4233" id="4233" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw  from  to  port  [proto ]</code></pre><p name="a835" id="a835" class="graf graf--p graf-after--pre">เช่น อนุญาตให้ ssh ได้เฉพาะ network 192.168.1.0/24</p><pre name="6e96" id="6e96" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ufw allow from 192.168.1.0/24 to any port 22 proto tcp</code></pre><p name="2c56" id="2c56" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">สำหรับการใช้งานขั้นสูงนั้นคงต้องกลับไปใช้ iptables command เช่นเดิมโดยใส่คำสั่งที่ต้องการไว้ที่ </strong><code class="markup--code markup--p-code"><strong class="markup--strong markup--p-strong">/etc/ufw/*.rules</strong></code></p><h4 name="88db" id="88db" class="graf graf--h4 graf-after--p">ตัวอย่างการใช้งาน</h4><p name="9122" id="9122" class="graf graf--p graf-after--h4">ออฟฟิศแห่งหนึ่งมีการแบ่ง network ดังนี้</p><ul class="postList"><li name="885f" id="885f" class="graf graf--li graf-after--p">พนักงาน 192.168.1.0/24</li><li name="3556" id="3556" class="graf graf--li graf-after--li">ผู้พัฒนา 10.0.0.0/24</li><li name="30b8" id="30b8" class="graf graf--li graf-after--li">ผู้ดูแลระบบ 172.16.0.0/24</li></ul><p name="5421" id="5421" class="graf graf--p graf-after--li">โดยทีเงื่อนไขว่า</p><ul class="postList"><li name="1e46" id="1e46" class="graf graf--li graf-after--p">ทุกคนต้องสามารถใช้งาน http, https ได้</li><li name="e0f3" id="e0f3" class="graf graf--li graf-after--li">ผู้พัฒนาต้องสามารถใช้งาน mysql (port 3306/tcp) ได้</li><li name="4dc3" id="4dc3" class="graf graf--li graf-after--li">ผู้ดูแลระบบต้องสามารถใช้งาน ssh ได้</li><li name="7904" id="7904" class="graf graf--li graf-after--li">เซิร์ฟเวอร์สามารถใช้ใช้งานขาออกได้หมด แต่ขาเข้าอนุญาตเฉพาะรายการข้างต้น</li></ul><pre name="fed4" id="fed4" class="graf graf--pre graf-after--li"><code class="markup--code markup--pre-code">ufw default allow outgoing<br>ufw default deny incoming<br>ufw allow http<br>ufw allow https<br>ufw allow from 10.0.0.0/24 to any port 3306 proto tcp<br>ufw allow from 172.16.0.0/24 to any port 22 proto tcp</code></pre><p name="0857" id="0857" class="graf graf--p graf-after--pre">ปล. สำหรับ <code class="markup--code markup--p-code">ufw default</code> นั้น default สำหรับ incoming และ outgoing จะมีค่าเป็น deny และ allow ตามลำดับอยู่แล้ว</p><p name="7aa4" id="7aa4" class="graf graf--p graf-after--p graf--trailing">Ref: <a href="https://help.ubuntu.com/community/UFW" data-href="https://help.ubuntu.com/community/UFW" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">https://help.ubuntu.com/community/UFW</a></p></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/9f39119a094b"><time class="dt-published" datetime="2016-02-07T17:00:00.000Z">February 7, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%87%E0%B8%B2%E0%B8%99-firewall-%E0%B8%9A%E0%B8%99-ubuntu-%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%87%E0%B9%88%E0%B8%B2%E0%B8%A2%E0%B9%86-%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-ufw-9f39119a094b" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

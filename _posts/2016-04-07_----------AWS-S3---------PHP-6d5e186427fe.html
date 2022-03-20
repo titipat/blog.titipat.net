@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>ดึงรูปจาก AWS S3 มาใช้บน PHP</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">ดึงรูปจาก AWS S3 มาใช้บน PHP</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="981b" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="03a6" id="03a6" class="graf graf--h3 graf--leading graf--title">ดึงรูปจาก AWS S3 มาใช้บน PHP</h3><p name="f577" id="f577" class="graf graf--p graf-after--h3">ตอนนี้ทีมผมกำลังอยู่ในช่วงปรับตัวให้เข้ากับยุค cloud และบริการต่างๆ วันนี้ได้โจทย์ว่าให้ดึงรูปจากบริการ file storage ของ aws มาแสดง ก่อนนั้นขอแนะนำนิดนึงว่าใน s3 นั้นใช้การอ้างอิงไฟล์แบบ key, value ในแต่ละ bucket ดังนั้นถ้า</p><pre name="6b41" id="6b41" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">s3://bucket-name/folder/filename.extension</code></pre><p name="b276" id="b276" class="graf graf--p graf-after--pre">จะหมายความว่าส่วนที่เป็น key คือ</p><pre name="fcbb" id="fcbb" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">folder/filename.extension</code></pre><p name="ce3a" id="ce3a" class="graf graf--p graf-after--pre">ลงมือเขียนกันเถอะ ขั้นตอนแรกจัดตั้ง aws sdk กันก่อน</p><pre name="447a" id="447a" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">composer require ws/aws-sdk-php</code></pre><p name="baed" id="baed" class="graf graf--p graf-after--pre">สมมุติว่าเราต้องการให้ผู้ใช้สามารถเรียกใช้จาก key ได้เลยในลักษณะ <code class="markup--code markup--p-code">pic.php?key=members/101.jpg</code> ก็ให้เริ่มจากสร้างไฟล์ <code class="markup--code markup--p-code">pic.php</code> ตามนี้</p><p name="2e56" id="2e56" class="graf graf--p graf-after--p">ทำการ load sdk ด้วย composer autoload</p><pre name="87d6" id="87d6" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">// filename: pic.php</code></pre><pre name="263e" id="263e" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">require &#39;vendor/autoload.php&#39;;</code></pre><pre name="96b2" id="96b2" class="graf graf--pre graf-after--pre">จากนั้นสร้าง s3 client เพื่อใช้เรียกใช้ service</pre><pre name="c6a4" id="c6a4" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$s3Client = new AwsS3S3Client([<br>    &#39;version&#39; =&gt; &#39;latest&#39;,<br>    &#39;region&#39;  =&gt; &#39;ap-southeast-1&#39;,<br>    &#39;credentials&#39; =&gt; [<br>        &#39;key&#39;    =&gt; &#39;your-key&#39;,<br>        &#39;secret&#39; =&gt; &#39;your-secret&#39;,<br>    ],<br>]);</code></pre><pre name="1eea" id="1eea" class="graf graf--pre graf-after--pre">แล้วทำการเรียก object จาก key ที่ผู้ใช้ส่งมา</pre><pre name="b218" id="b218" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$key = $_GET[&#39;key&#39;];</code></pre><pre name="bac6" id="bac6" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$result = $s3Client-&gt;getObject([<br>    &#39;Bucket&#39; =&gt; &#39;bucket-name&#39;,<br>    &#39;Key&#39;    =&gt; $key<br>]);</code></pre><pre name="3e5d" id="3e5d" class="graf graf--pre graf-after--pre">เมื่อได้แล้วก็นำ stream ออกมาแสดงผลเป็นภาพ <code class="markup--code markup--pre-code">jpeg</code></pre><pre name="f265" id="f265" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$stream = $result-&gt;get(&#39;Body&#39;)-&gt;getContents();</code></pre><pre name="b59a" id="b59a" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$img = imagecreatefromstring($stream);</code></pre><pre name="acd5" id="acd5" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">header(&#39;Content-Type: image/jpeg&#39;);</code></pre><pre name="e7f5" id="e7f5" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">imagejpeg($img);</code></pre><pre name="7a07" id="7a07" class="graf graf--pre graf-after--pre graf--trailing">เท่านี้เราก็สามารถเรียกใช้รูปจาก aws s3 ได้แล้ว และไม่ใช่แค่รูปเท่านั้นนะไฟล์อื่นก็ทำได้เช่นกัน ใครที่สนใจลองเข้าไปอ่านต่อได้ที่ <a href="http://docs.aws.amazon.com/aws-sdk-php/v3/guide/index.html" data-href="http://docs.aws.amazon.com/aws-sdk-php/v3/guide/index.html" class="markup--anchor markup--pre-anchor" rel="noopener" target="_blank">aws-sdk-php</a></pre></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/6d5e186427fe"><time class="dt-published" datetime="2016-04-07T17:00:00.000Z">April 7, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%94%E0%B8%B6%E0%B8%87%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%88%E0%B8%B2%E0%B8%81-aws-s3-%E0%B8%A1%E0%B8%B2%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%9A%E0%B8%99-php-6d5e186427fe" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

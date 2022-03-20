@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>วิธีรัน atom editor จาก terminal บน macOS</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">วิธีรัน atom editor จาก terminal บน macOS</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="6433" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="25b5" id="25b5" class="graf graf--h3 graf--leading graf--title">วิธีรัน atom editor จาก terminal บน macOS</h3><p name="d7af" id="d7af" class="graf graf--p graf-after--h3">tl;dr</p><pre name="9552" id="9552" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">เปิด atom, Atom &gt; Install Shell Commands</code></pre><p name="c504" id="c504" class="graf graf--p graf-after--pre">ปกติผมใช้ sublime เป็น text editor หลักครับ แล้วตอนนี้อยากเปลี่ยนบรรยายบ้างเลยสลับมาใช้ atom จากค่าย github ถ้าผมจำไม่ผิด sublime เขียนด้วย c++, python ส่วน atom นั้นเป็น nodejs แล้วมี electron ครอบอีกที</p><p name="7a11" id="7a11" class="graf graf--p graf-after--p">วิธีในการจะเปิด atom จาก terminal เริ่มจากเปิด atom ขึ้นมาแล้วไปดูที่ menubar ด้านบน จากนั้นเลือก Atom &gt; Install Shell Commands เท่านี้ก็เรียบร้อย</p><p name="8b77" id="8b77" class="graf graf--p graf-after--p">เบื้องหลังของคำสั่งนี้คือการสร้าง symlink ครับ</p><pre name="b51f" id="b51f" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">laptop:~ titipat$ which atom<br>/usr/local/bin/atom<br>laptop:~ titipat$ ls -la /usr/local/bin/atom<br>lrwxr-xr-x  1 titipat  admin    53B Nov 28 09:54 /usr/local/bin/atom@ -&gt; /Applications/Atom.app/Contents/Resources/app/atom.sh</code></pre><p name="f1a6" id="f1a6" class="graf graf--p graf-after--pre graf--trailing">ref: <a href="http://stackoverflow.com/questions/22390709/open-atom-editor-from-command-line" data-href="http://stackoverflow.com/questions/22390709/open-atom-editor-from-command-line" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">http://stackoverflow.com/questions/22390709/open-atom-editor-from-command-line</a></p></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/fd67f7741c8a"><time class="dt-published" datetime="2016-11-27T17:00:00.000Z">November 27, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%A7%E0%B8%B4%E0%B8%98%E0%B8%B5%E0%B8%A3%E0%B8%B1%E0%B8%99-atom-editor-%E0%B8%88%E0%B8%B2%E0%B8%81-terminal-%E0%B8%9A%E0%B8%99-macos-fd67f7741c8a" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

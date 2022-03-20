@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>โฮส Wordpress ฟรีบน Google Cloud Always Free Tier</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">โฮส Wordpress ฟรีบน Google Cloud Always Free Tier</h1>
+</header>
+<section data-field="subtitle" class="p-summary">
+หลังจาก Google Cloud ประกาศ Always Free Tier ออกมาทำให้เราสามารถใช้ Compute Engine ขนาด f1-micro ได้ฟรีโดยมีเงื่อนไขว่าต้องอยู่ภายใน US…
+</section>
+<section data-field="body" class="e-content">
+<section name="eb11" class="section section--body section--first"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><figure name="2310" id="2310" class="graf graf--figure graf--leading"><img class="graf-image" data-image-id="1*tIKpKGoEMzvIiqxKQ3RBwQ.jpeg" data-width="5472" data-height="1899" src="https://cdn-images-1.medium.com/max/800/1*tIKpKGoEMzvIiqxKQ3RBwQ.jpeg"><figcaption class="imageCaption">รูป Heat sink ของ Intel Extreme series ที่ไม่ได้เกี่ยวเลย</figcaption></figure><h3 name="285f" id="285f" class="graf graf--h3 graf-after--figure graf--title">โฮส Wordpress ฟรีบน Google Cloud Always Free Tier</h3><p name="e995" id="e995" class="graf graf--p graf-after--h3 graf--trailing">หลังจาก <a href="https://cloud.google.com/free/" data-href="https://cloud.google.com/free/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Google Cloud ประกาศ Always Free Tier</a> ออกมาทำให้เราสามารถใช้ Compute Engine ขนาด f1-micro ได้ฟรีโดยมีเงื่อนไขว่าต้องอยู่ภายใน US Region ซึ่งก็เพียงพอแล้วกับการรัน Wordpress ที่ทุกท่าน(ควรจะ)กำลังอ่านอยู่</p></div></div></section><section name="ef62" class="section section--body"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h4 name="cae9" id="cae9" class="graf graf--h4 graf--leading">เงื่อนไข</h4><p name="ced1" id="ced1" class="graf graf--p graf-after--h4">มี Domain name ของตัวเองแล้ว</p><h4 name="12aa" id="12aa" class="graf graf--h4 graf-after--p">สร้าง Instance</h4><p name="2d29" id="2d29" class="graf graf--p graf-after--h4">เริ่มต้นจากสร้าง Compute Engine ขนาด f1-micro ไว้ที่โซนใดก็ได้ของ US Region ส่วนตัวผมแนะนำเป็น us-west เพราะกลุ่มผู้อ่านเป็นคนไทยฝั่งตะวันตกจะอยู่ใกล้กว่า เลือก Distribution เป็น Ubuntu 16.04 LTS และขนาดของ HDD เป็น 30 GB (มากที่สุดที่ Free Tier ให้)</p><h4 name="9690" id="9690" class="graf graf--h4 graf-after--p">ติดตั้ง Caddy</h4><p name="24e9" id="24e9" class="graf graf--p graf-after--h4"><a href="https://caddyserver.com/" data-href="https://caddyserver.com/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Caddy Server</a> เป็นอีกหนึ่ง Web Server ที่ทำ Reverse proxy ได้ อาจมีความแตกต่างกับ nginx เล็กน้อย แต่มีข้อดีคือทำ SSL จาก Let’s Encrypt ให้เอง</p><p name="e3e6" id="e3e6" class="graf graf--p graf-after--p">เริ่มด้วยการติดตั้ง</p><pre name="f4f1" id="f4f1" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo curl -s https://getcaddy.com | bash</code></pre><p name="e666" id="e666" class="graf graf--p graf-after--pre">สร้าง Directory สำหรับการทำงานของ Caddy</p><pre name="71c6" id="71c6" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo mkdir /etc/caddy<br>$ sudo chown -R root:www-data /etc/caddy<br>$ sudo touch /etc/caddy/Caddyfile</code></pre><pre name="a919" id="a919" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$ sudo mkdir /etc/ssl/caddy<br>$ sudo chown -R www-data:root /etc/ssl/caddy<br>$ sudo chmod 0770 /etc/ssl/caddy</code></pre><p name="6596" id="6596" class="graf graf--p graf-after--pre">เนื่องจาก Caddy ณ เวลาที่เขียนยังไม่ได้เป็น Service ใดๆ ดังนั้นจะทำการเพิ่มลงใน systemd unit</p><pre name="c13d" id="c13d" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo curl -s https://raw.githubusercontent.com/mholt/caddy/master/dist/init/linux-systemd/caddy.service -o /etc/systemd/system/caddy.service<br>$ sudo systemctl daemon-reload<br>$ sudo systemctl enable caddy.service</code></pre><h4 name="fb16" id="fb16" class="graf graf--h4 graf-after--pre">เปิดใช้งาน UFW</h4><p name="b08b" id="b08b" class="graf graf--p graf-after--h4">เปิดใช้งาน UFW หรือ Uncomplicated Firewall โดยจะอนุญาตให้เฉพาะ HTTP, HTTPS, และ SSH เข้ามาได้</p><pre name="4ca7" id="4ca7" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo ufw allow http<br>$ sudo ufw allow https<br>$ sudo ufw allow ssh<br>$ sudo ufw enable</code></pre><h4 name="6775" id="6775" class="graf graf--h4 graf-after--pre">ติดตั้ง PHP</h4><p name="31fc" id="31fc" class="graf graf--p graf-after--h4">ณ ตอนที่เขียน Current Stable คือ 7.1.8 และยังไม่มีให้โหลดจาก Repository พื้นฐาน ดังนั้นต้องเพิ่มก่อน</p><pre name="135e" id="135e" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo add-apt-repository ppa:ondrej/php<br>$ sudo apt-get update</code></pre><p name="2197" id="2197" class="graf graf--p graf-after--pre">ต่อด้วยการลง PHP และ Library ที่จำเป็น</p><pre name="eea1" id="eea1" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo apt-get install php7.1-fpm php7.1-mysql php7.1-curl php7.1-gd php7.1-mbstring php7.1-mcrypt php7.1-xml php7.1-xmlrpc</code></pre><h4 name="aa78" id="aa78" class="graf graf--h4 graf-after--pre">ติดตั้งฐานข้อมูล</h4><p name="5d6e" id="5d6e" class="graf graf--p graf-after--h4">ผมเลือกใช้ MariaDB แทน MySQL Server</p><pre name="3b28" id="3b28" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo apt-get install mariadb-server</code></pre><p name="15fb" id="15fb" class="graf graf--p graf-after--pre">ทำการตั้งค่าเพื่อความปลอดภัยเบื้องต้น ให้เปลี่ยนรหัสของ root, ลบฐานข้อมูลทดสอบ, และปิดการใช้ root จากภายนอก</p><pre name="e233" id="e233" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo mysql_secure_installation</code></pre><p name="25c1" id="25c1" class="graf graf--p graf-after--pre">จากนั้นก็สร้างฐานข้อมูลใหม่สำหรับ Wordpress</p><pre name="6952" id="6952" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo mysql<br>mysql&gt; CREATE DATABASE wordpress;<br>mysql&gt; GRANT ALL ON wordpress.* TO &#39;wordpressuser&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;password&#39;;<br>mysql&gt; FLUSH PRIVILEGES;<br>mysql&gt; EXIT;</code></pre><h4 name="8801" id="8801" class="graf graf--h4 graf-after--pre">โหลด Wordpress</h4><p name="db91" id="db91" class="graf graf--p graf-after--h4">เราจะใช้ /var/www/wordpress เป็น Root Directory นะครับ</p><pre name="f7b8" id="f7b8" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ cd /var/www<br>$ sudo curl -O https://wordpress.org/latest.tar.gz<br>$ sudo tar zxf latest.tar.gz<br>$ sudo chown -R www-data:www-data wordpress</code></pre><h4 name="d4a4" id="d4a4" class="graf graf--h4 graf-after--pre">ตั้งค่า Caddyfile</h4><p name="6c6c" id="6c6c" class="graf graf--p graf-after--h4">ปกติแล้ว Caddy จะเรียกไฟล์ตั้งค่าจาก /etc/caddy/Caddyfile เพื่อใช้งาน ดังนั้นสร้างไฟล์ที่ว่า อย่าลืมเปลี่ยน Domain name ให้ตรงกับ DNS Record ด้วยล่ะ</p><pre name="bfe7" id="bfe7" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">example.com {<br>    tls admin@example.com<br>    root /var/www/wordpress<br>    gzip<br>    fastcgi / /run/php/php7.1-fpm.sock php<br>    rewrite {<br>        if {path} not_match ^\/wp-admin<br>        to {path} {path}/ /index.php?_url={uri}<br>    }<br>}</code></pre><h4 name="38a2" id="38a2" class="graf graf--h4 graf-after--pre">เสร็จงาน</h4><p name="a6ba" id="a6ba" class="graf graf--p graf-after--h4">เมื่อเราตั้งค่าทุกอย่างเสร็จแล้วเพียงแค่สั่ง Restart Caddy Server เท่านี้ก็พร้อมสำหรับการเริ่มติดตั้ง Wordpress ตามปกติแล้วครับ</p><pre name="c634" id="c634" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo systemctl restart caddy.service</code></pre><p name="ad09" id="ad09" class="graf graf--p graf-after--pre graf--trailing">เนื่องจากส่วน Tutorial ผมตัดแปะโดยไม่ได้ทำตามอีกรอบ หากมีข้อผิดพลาดตรงไหนแนะนำกันได้ครับ แล้วนี้ก็เป็นวิธีการโฮส Wordpress แบบฟรีของผม แล้วของทุกคนเป็นอย่างไร เล่าให้ผมฟังด้วยนะ สวัสดีครับ</p></div></div></section><section name="0908" class="section section--body section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="b2e8" id="b2e8" class="graf graf--p graf--leading">ตอนต่อไป แบ็คอัพข้อมูลจากโฮส WordPress ฟรีแบบฟรีๆ บน Google Cloud Always Free Tier</p><h4 name="d8dc" id="d8dc" class="graf graf--h4 graf-after--p">อ้างอิง</h4><ul class="postList"><li name="9e38" id="9e38" class="graf graf--li graf-after--h4"><a href="https://www.digitalocean.com/community/tutorials/how-to-host-a-website-with-caddy-on-ubuntu-16-04" data-href="https://www.digitalocean.com/community/tutorials/how-to-host-a-website-with-caddy-on-ubuntu-16-04" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">How To Host a Website with Caddy on Ubuntu 16.04</a></li><li name="e02e" id="e02e" class="graf graf--li graf-after--li"><a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-caddy-on-ubuntu-16-04" data-href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-caddy-on-ubuntu-16-04" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">How to Install WordPress with Caddy on Ubuntu 16.04</a></li><li name="a686" id="a686" class="graf graf--li graf-after--li graf--trailing"><a href="https://www.colinodell.com/blog/2016-12/installing-php-7-1" data-href="https://www.colinodell.com/blog/2016-12/installing-php-7-1" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">Installing PHP 7.1</a></li></ul></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/42df20291963"><time class="dt-published" datetime="2017-08-08T18:08:11.000Z">August 8, 2017</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B9%82%E0%B8%AE%E0%B8%AA-wordpress-%E0%B8%9F%E0%B8%A3%E0%B8%B5%E0%B8%9A%E0%B8%99-google-cloud-always-free-tier-42df20291963" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

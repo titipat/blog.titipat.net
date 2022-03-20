@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>How to install VIVO web 1.9 on Ubuntu Server 16.04 LTS</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">How to install VIVO web 1.9 on Ubuntu Server 16.04 LTS</h1>
+</header>
+<section data-field="subtitle" class="p-summary">
+This is a short note about how to install VIVO 1.9 web on Ubuntu 16.04 LTS. Deploying on the instance with 4 cores or above along with SSD…
+</section>
+<section data-field="body" class="e-content">
+<section name="9687" class="section section--body section--first"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="deb5" id="deb5" class="graf graf--h3 graf--leading graf--title">How to install VIVO web 1.9 on Ubuntu Server 16.04 LTS</h3><p name="0d0e" id="0d0e" class="graf graf--p graf-after--h3">This is a short note about how to install VIVO 1.9 web on Ubuntu 16.04 LTS. Deploying on the instance with 4 cores or above along with SSD storage is highly recommended.</p><p name="b7cc" id="b7cc" class="graf graf--p graf-after--p">First, we need Tomcat server so, I am going to install version 8 which is the latest and the stable one.</p><pre name="f522" id="f522" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">sudo apt-get install tomcat8</code></pre><p name="7aad" id="7aad" class="graf graf--p graf-after--pre">Second, downloading VIVO distribute from <a href="https://github.com/vivo-project/VIVO/releases/" data-href="https://github.com/vivo-project/VIVO/releases/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">https://github.com/vivo-project/VIVO/releases/</a> and extract it to somewhere you want.</p><p name="b165" id="b165" class="graf graf--p graf-after--p">Copy <code class="markup--code markup--p-code">example-settings.xml</code> as wherever name you want. Then, edit tomcat-dir to <code class="markup--code markup--p-code">/var/lib/tomcat8</code>.</p><p name="31c8" id="31c8" class="graf graf--p graf-after--p">Third, we need maven to build the VIVO.</p><pre name="f83e" id="f83e" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">sudo apt-get install maven</code></pre><p name="c177" id="c177" class="graf graf--p graf-after--pre">After that, install the VIVO via Maven command. The parameter <code class="markup--code markup--p-code">-s</code> is the config that we have edited. It should take a couple of minutes to complete Java dependencies hell.</p><pre name="948b" id="948b" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">sudo mvn install -s settings.xml</code></pre><p name="15ac" id="15ac" class="graf graf--p graf-after--pre">The building is complete, next, we have to setup a database.</p><pre name="e7ec" id="e7ec" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">sudo apt-get install mariadb-server</code></pre><p name="807c" id="807c" class="graf graf--p graf-after--pre">Then, create a new database.</p><pre name="d378" id="d378" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">mysql&gt; CREATE DATABASE vitrodb CHARACTER SET utf8; <br>mysql&gt; GRANT ALL ON vitrodb.* TO &#39;vitrodbUsername&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;vitrodbPassword&#39;;</code></pre><p name="77aa" id="77aa" class="graf graf--p graf-after--pre">We need to finish the installation. Do copy this following 2 files:</p><ol class="postList"><li name="8c96" id="8c96" class="graf graf--li graf-after--p"><code class="markup--code markup--li-code">/usr/local/vivo/home/config/example.runtime.properties</code> to <code class="markup--code markup--li-code">/usr/local/vivo/home/runtime.properties</code></li><li name="fc2b" id="fc2b" class="graf graf--li graf-after--li"><code class="markup--code markup--li-code">/usr/local/vivo/home/config/example.applicationSetup.n3</code> to <code class="markup--code markup--li-code">/usr/local/vivo/home/config/applicationSetup.n3</code></li></ol><p name="2cf5" id="2cf5" class="graf graf--p graf-after--li">Lastly, give a permission to tomcat8 so, the tomcat user will be able to read/write on <code class="markup--code markup--p-code">/usr/local/vivo/home</code></p><pre name="5a13" id="5a13" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">sudo chown -R tomcat8:tomcat8 /usr/local/vivo/home <br>sudo chmod -R 775 /usr/local/vivo/home</code></pre><p name="ddf7" id="ddf7" class="graf graf--p graf-after--pre">Finally, we should get VIVO web available at <a href="http://YOUR_HOST_NAME:8080/vivo" data-href="http://YOUR_HOST_NAME:8080/vivo" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">http://YOUR_HOST_NAME:8080/vivo</a></p><h3 name="19e4" id="19e4" class="graf graf--h3 graf-after--p">References</h3><ul class="postList"><li name="7f80" id="7f80" class="graf graf--li graf-after--h3"><a href="https://wiki.duraspace.org/display/VIVODOC19x/Installing+VIVO" data-href="https://wiki.duraspace.org/display/VIVODOC19x/Installing+VIVO" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">VIVO installation document</a></li><li name="2692" id="2692" class="graf graf--li graf-after--li graf--trailing"><a href="https://wiki.duraspace.org/display/VIVODOC19x/System+Requirements" data-href="https://wiki.duraspace.org/display/VIVODOC19x/System+Requirements" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">VIVO system requirement</a></li></ul></div></div></section><section name="c6ee" class="section section--body section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="44df" id="44df" class="graf graf--p graf--leading graf--trailing"><em class="markup--em markup--p-em">Originally published at </em><a href="https://gist.github.com/titipat/2ce7ab0f7b0f024409a25db50cd52dce" data-href="https://gist.github.com/titipat/2ce7ab0f7b0f024409a25db50cd52dce" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><em class="markup--em markup--p-em">gist.github.com</em></a><em class="markup--em markup--p-em">.</em></p></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/680e109688ff"><time class="dt-published" datetime="2018-01-05T05:03:17.721Z">January 5, 2018</time></a>.</p><p><a href="https://medium.com/@titipat/how-to-install-vivo-web-1-9-on-ubuntu-server-16-04-lts-680e109688ff" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Regex บน mysql</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">Regex บน mysql</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="9b6f" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="2ae5" id="2ae5" class="graf graf--h3 graf--leading graf--title">Regex บน mysql</h3><p name="e9b4" id="e9b4" class="graf graf--p graf-after--h3">ถ้าใครเขียนโปรแกรมต้องรู้จัก Regex ไม่มากก็น้อย แต่ผมไม่เคยเอามาใช้กับ sql query มาก่อนเลยอยากจะบันทึกไว้สักหน่อย</p><p name="6512" id="6512" class="graf graf--p graf-after--p">ผมมีโจทย์ว่า ในการเก็บข้อมูลสินค้าแต่ละอย่างจะมีรหัสประจำ 6 หลัก และในรหัสหลักที่ 4 จะหมายถึงที่มาของสินค้า เช่น 0–6 คือสินค้าภายในประเทศ ส่วนที่เหลือ 7–9 เป็นสินค้านำเขา</p><p name="20a8" id="20a8" class="graf graf--p graf-after--p">ในส่วนของการเขียน sql จะได้หน้าตาประมาณนี้</p><pre name="61b8" id="61b8" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">select *<br>from products<br>where products.no regexp &#39;^...[0-6]..$&#39;</code></pre><p name="3a04" id="3a04" class="graf graf--p graf-after--pre">ดังนั้นการ implement web api บน illuminate database ของผมจึงเป็นตามนี้</p><pre name="af6a" id="af6a" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">function getProducts($filters)<br>{<br>    $products = Capsule::table(&#39;products&#39;);</code></pre><pre name="4e34" id="4e34" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// others filter<br>    // ...</code></pre><pre name="7471" id="7471" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// check does source filter has requested<br>    if (isset($filters[&#39;source&#39;])) {<br>        if ($filters[&#39;source&#39;] === &#39;import&#39;) {<br>            $products-&gt;where(&#39;no&#39;, &#39;regexp&#39;, &#39;^...[7-9]..$&#39;);<br>        } else if ($filters[&#39;source&#39;] === &#39;local&#39;) {<br>            $products-&gt;where(&#39;no&#39;, &#39;regexp&#39;, &#39;^...[0-6]..$&#39;);<br>        }<br>    }</code></pre><pre name="155e" id="155e" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">return $products-&gt;get();<br>}</code></pre><pre name="a12f" id="a12f" class="graf graf--pre graf-after--pre graf--trailing">พอดีงานนี้ไม่ได้ใช้ object-relation mapping (orm) จึงเรียกใช้แค่ query builder เท่านั้น ส่วนท่านใดสนใจลองต่อยอดได้ที่ illuminate/database, eloquent database ได้ครับ</pre></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/49e08ad315e8"><time class="dt-published" datetime="2016-04-24T17:00:00.000Z">April 24, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/regex-%E0%B8%9A%E0%B8%99-mysql-49e08ad315e8" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

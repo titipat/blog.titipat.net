@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>รู้จัก MySQL Login-path</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">รู้จัก MySQL Login-path</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="1be0" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="223d" id="223d" class="graf graf--h3 graf--leading graf--title">รู้จัก MySQL Login-path</h3><p name="cbfe" id="cbfe" class="graf graf--p graf-after--h3">ผมเชื่อว่าหลายคนเคยใช้คำสั่ง mysql แบบนี้ ใน bash, shell เพื่อความง่าย รวดเร็ว</p><pre name="1eb3" id="1eb3" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">mysql -uUSERNAME -pPASSWORD -e &#39;DO SOMETHING&#39;</code></pre><p name="a541" id="a541" class="graf graf--p graf-after--pre">แต่ถ้าวันหนึ่งเราพลาดขึ้นมาล่ะ วันหนึ่งมีคนมารัน <code class="markup--code markup--p-code">ps aux</code> บนเครื่องเซิร์ฟเวอร์เค้าจะเห็นรหัสผ่านที่เราเขียนไปกับ command นั้นเลยนะ</p><p name="78ef" id="78ef" class="graf graf--p graf-after--p">การใช้ login-path จะคล้ายๆ กันการสร้าง .ssh/config นั้นแหละ โดยมีลักษณะการทำงานแบบ profile ให้เราเรียกใช้แถมปลอดภัยกว่าด้วยเพราะว่ามันจะถูก encrypt ไว้ที่ .mylogin.cnf</p><h4 name="ef05" id="ef05" class="graf graf--h4 graf-after--p">การสร้าง Login-path</h4><pre name="4d3a" id="4d3a" class="graf graf--pre graf-after--h4"><code class="markup--code markup--pre-code">mysql_config_editor set --login-path=client --host=localhost --user=localuser --password</code></pre><h4 name="90cc" id="90cc" class="graf graf--h4 graf-after--pre">การเรียกดู Login-path</h4><pre name="b9ba" id="b9ba" class="graf graf--pre graf-after--h4"><code class="markup--code markup--pre-code">mysql_config_editor show --all</code></pre><p name="02ee" id="02ee" class="graf graf--p graf-after--pre">สมมุติว่าเราได้สร้าง login-path: client ไว้แล้วจะแสดงผลประมาณนี้</p><pre name="e042" id="e042" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">[client]<br>user = localuser<br>password = *****<br>host = localhost</code></pre><h4 name="9354" id="9354" class="graf graf--h4 graf-after--pre">การใช้งาน</h4><p name="916b" id="916b" class="graf graf--p graf-after--h4">ไม่เฉพาะ <code class="markup--code markup--p-code">mysql</code> นะแต่เครื่องมืออื่นๆ ก็สามารถใช้งานได้ด้วย เช่น</p><pre name="d9a0" id="d9a0" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">mysqldump -h example.com --login-path=example example_db &gt; example_db.sql</code></pre><p name="64ad" id="64ad" class="graf graf--p graf-after--pre">ยังไงก็ลองประยุกต์ใช้กันดูนะครับ ส่วนตัวผมทำงานกับ database หลายตัวมากให้จำ credential ทั้งหมดไม่ไหวแน่นอน ถึงจำได้ถ้าต้องมานั่งเขียน mysql command เยอะๆ ก็ไม่ไหวเช่นกันเลยเลือกใช้ login-path นี้แหละเป็นตัวช่วยในการเขียน shell script</p><p name="7b0e" id="7b0e" class="graf graf--p graf-after--p graf--trailing">Ref <a href="http://dev.mysql.com/doc/refman/5.7/en/mysql-config-editor.html" data-href="http://dev.mysql.com/doc/refman/5.7/en/mysql-config-editor.html" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">http://dev.mysql.com/doc/refman/5.7/en/mysql-config-editor.html</a></p></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/e17f37e5309c"><time class="dt-published" datetime="2016-01-10T17:00:00.000Z">January 10, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%88%E0%B8%B1%E0%B8%81-mysql-login-path-e17f37e5309c" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

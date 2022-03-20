@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>เรื่องงานเผาต้องยกให้เรา ทำ Rest API อย่างรวดเร็วด้วย Flight PHP และ Eloquent</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">เรื่องงานเผาต้องยกให้เรา ทำ Rest API อย่างรวดเร็วด้วย Flight PHP และ Eloquent</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="6688" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="e9d5" id="e9d5" class="graf graf--h3 graf--leading graf--title">เรื่องงานเผาต้องยกให้เรา ทำ Rest API อย่างรวดเร็วด้วย Flight PHP และ Eloquent</h3><p name="69d9" id="69d9" class="graf graf--p graf-after--h3">ที่มาของเอนทรี่เกิดจากผมสงสัยว่าถ้าเราจำเป็นต้องสร้าง Rest API เพื่ออย่างอะไรสักอย่างแบบเร่งรีบสุดจะใช้เวลาเท่าใด ผมเลยลองตั้งเวลาดูว่าภายใน 10 นาทีผมจะสร้างทันหรือไม่ แอบมีข้อกำหนดว่าขอยังไม่มีการ authentication, authorization เข้ามาเกี่ยวนะ</p><p name="f542" id="f542" class="graf graf--p graf-after--p">เริ่มจาก googling แล้วผมก็ไปเจอ php framework ตัวหนึ่งชื่อว่า Flight ลองดูจากการ install ที่ไม่ยากเพียงแค่ดึงจาก composer และทำ url rewrite ซึ่งตัวเว็บมีอธิบายไว้ชัดเจนแล้วก็จัดเลยครับ</p><p name="7b14" id="7b14" class="graf graf--p graf-after--p">เริ่มจาก composer ที่รัก</p><pre name="5a53" id="5a53" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">composer require mikecao/flight</code></pre><p name="1866" id="1866" class="graf graf--p graf-after--pre">แล้วก็จัดการเรื่อง url rewrite ซะ</p><pre name="3e3e" id="3e3e" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code"># .htaccess<br>RewriteEngine On<br>RewriteCond %{REQUEST_FILENAME} !-f<br>RewriteCond %{REQUEST_FILENAME} !-d<br>RewriteRule ^(.*)$ index.php [QSA,L]</code></pre><p name="d8aa" id="d8aa" class="graf graf--p graf-after--pre">และเนื่องจากไม่ต้องการเสียเวลาเขียน mysql query เองให้ปวดตับก็ดึง eloquent มาใช้โล้ด</p><pre name="71ba" id="71ba" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">composer require illuminate/database</code></pre><p name="abf6" id="abf6" class="graf graf--p graf-after--pre">จัดการสร้าง bootstrap.php เป็นตัวที่รวมทุกอย่างที่ต้องใช้งานแบบคร่าวๆ อย่าลืมนะครับว่าเน้นเร็วไว้ก่อน</p><pre name="a4c2" id="a4c2" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">// bootstrap.php<br>require &#39;vendor/autoload.php&#39;;</code></pre><pre name="5052" id="5052" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">use IlluminateDatabaseEloquentModel as Model;<br>use IlluminateDatabaseCapsuleManager as Capsule;</code></pre><pre name="adbb" id="adbb" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$capsule = new Capsule;</code></pre><pre name="c860" id="c860" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$capsule-&gt;addConnection(array(<br>    &#39;driver&#39;    =&gt; &#39;mysql&#39;,<br>    &#39;host&#39;      =&gt; &#39;YOUR_DATABASE_HOST&#39;,<br>    &#39;database&#39;  =&gt; &#39;YOUR_DATABASE&#39;,<br>    &#39;username&#39;  =&gt; &#39;YOUR_USERNAME&#39;,<br>    &#39;password&#39;  =&gt; &#39;YOUR_PASSWORD&#39;,<br>    &#39;charset&#39;   =&gt; &#39;utf8&#39;,<br>    &#39;collation&#39; =&gt; &#39;utf8_unicode_ci&#39;,<br>    &#39;prefix&#39;    =&gt; &#39;&#39;<br>));</code></pre><pre name="1da0" id="1da0" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$capsule-&gt;bootEloquent();</code></pre><pre name="6753" id="6753" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">class Student extends Model<br>{<br>  protected $table = &#39;student&#39;;</code></pre><pre name="5bac" id="5bac" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">public function enrollments()<br>  {<br>    $this-&gt;hasMany(&#39;Enrollment&#39;);<br>  }<br>}</code></pre><pre name="0cd8" id="0cd8" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">class Enrollment extends Model<br>{<br>  protected $table = &#39;enrollment&#39;;<br>}</code></pre><pre name="75e4" id="75e4" class="graf graf--pre graf-after--pre">เมื่อทุกอย่างพร้อมแล้วในเวลาเกือบๆ 5 นาทีใช้เวลาที่เหลือเขียน endpoint กัน</pre><pre name="d161" id="d161" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// public/index.php<br>require &#39;../bootstrap.php&#39;;</code></pre><pre name="4ec0" id="4ec0" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">Flight::route(&#39;GET /students/@studentId&#39;, function($studentId){<br>  $student = Student::find($studentId);<br>  Flight::json(array(&#39;data&#39; =&gt; $student));<br>});</code></pre><pre name="f6e2" id="f6e2" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">Flight::route(&#39;GET /students/@studentId/enrollments&#39;, function($studentId){<br>  $student = Student::find($studentId);<br>  Flight::json(array(&#39;data&#39; =&gt; $student-&gt;enrollments));<br>});</code></pre><pre name="816a" id="816a" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">Flight::start();</code></pre><pre name="f124" id="f124" class="graf graf--pre graf-after--pre graf--trailing">เท่าที่ก็เรียบร้อยได้ภายในเวลาไม่ถึง 10 นาทีแล้ว</pre></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/41965799c9f1"><time class="dt-published" datetime="2016-01-26T17:00:00.000Z">January 26, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B9%80%E0%B8%9C%E0%B8%B2%E0%B8%95%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%A2%E0%B8%81%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B9%80%E0%B8%A3%E0%B8%B2-%E0%B8%97%E0%B8%B3-rest-api-%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%A3%E0%B8%A7%E0%B8%94%E0%B9%80%E0%B8%A3%E0%B9%87%E0%B8%A7%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-flight-php-%E0%B9%81%E0%B8%A5%E0%B8%B0-eloquent-41965799c9f1" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

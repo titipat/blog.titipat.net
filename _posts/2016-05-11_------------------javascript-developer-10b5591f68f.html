@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>เรื่องราวของผมกับ javascript developer</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">เรื่องราวของผมกับ javascript developer</h1>
+</header>
+<section data-field="subtitle" class="p-summary">
+tl;dr
+</section>
+<section data-field="body" class="e-content">
+<section name="16c2" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><figure name="fbb1" id="fbb1" class="graf graf--figure graf--leading"><img class="graf-image" data-image-id="1*b2W-QPm25Q8v2Z-uLMdJZw.jpeg" data-width="2048" data-height="1152" src="https://cdn-images-1.medium.com/max/800/1*b2W-QPm25Q8v2Z-uLMdJZw.jpeg"><figcaption class="imageCaption">เดี๋ยวนี้อยู่ที่ไหนก็ทำงานได้เนอะ</figcaption></figure><h3 name="8ab0" id="8ab0" class="graf graf--h3 graf-after--figure graf--title">เรื่องราวของผมกับ javascript developer</h3><h4 name="f67d" id="f67d" class="graf graf--h4 graf-after--h3 graf--subtitle">tl;dr</h4><p name="230c" id="230c" class="graf graf--p graf-after--h4">เริ่มจากเขียน jquery, ajax ก่อนจะรู้จัก node แล้วเปลี่ยนใจเป็น backend เริ่มเรียนรู้ว่า ops ยังไงให้มันทำงานได้ทั้งบน self-managed server และ cloud platform ผมกลับมาเขียน front อีกครั้งด้วย ember, angularjs พร้อมพัฒนาการเขียนให้มีแนวทาง เริ่มใช้ task running, testing tool ได้หัดทำงานแบบ devops พร้อม docker และเริ่มเปิดโลกให้กว้างขึ้นกว่าการแค่ googling ในหน้าจอ</p><h4 name="acf2" id="acf2" class="graf graf--h4 graf-after--p">Client javascript</h4><p name="fa31" id="fa31" class="graf graf--p graf-after--h4">ผมว่าตัวนี้คือพื้นฐานสุดๆ สามารถเริ่มได้เลยจากการเปิด console บน web browser ผมเรียนรู้การเขียน function ง่ายๆ และต่อยอดหากินด้วย css selector บน jquery ที่ช่วยให้เพิ่ม action หรือ animate ที่ไม่สามารถทำได้บน php based</p><p name="be5a" id="be5a" class="graf graf--p graf-after--p">ลำพังแค่ความรู้ js คงจะไปไม่รอด ผมเริ่มอ่านให้ลึกขึ้นว่า html web ทำงานยังไง dom คืออะไร json หน้าตาเป็นอย่างไรทำไมถึงได้รับความนิยม</p><blockquote name="7797" id="7797" class="graf graf--pullquote graf-after--p">&lt;button onClick=”myFunction()”&gt;Click Me</blockquote><h4 name="4999" id="4999" class="graf graf--h4 graf-after--pullquote">Node</h4><p name="c020" id="c020" class="graf graf--p graf-after--h4">ต่อมาผมได้ลอง node แล้วหลงรักในที่สุดบนโปรเจคจบของผมเอง ตอนนั้นมี module อะไรให้ใช้ก็มาอย่างเดียว ไม่รู้เลยด้วยซ้ำไปว่าโปรแกรมเราเรียกมันได้อย่างไรผมได้ใช้ mongodb เป็นครั้งแรกร่วมกับ mongoose (library mongodb บน node) บน express (web server framework)</p><p name="29b1" id="29b1" class="graf graf--p graf-after--p">ผมเจอปัญหาว่าแค่ function ง่ายๆ ก็เขียนไม่ได้เพราะสิ่งที่เรียกว่า callback แต่ก็ยังประคอบแบบถูไถมาเรื่อยๆ จนเรียนจบมาได้พร้อมกับคำถามว่า promise ต่างกับ callback ยังไง</p><blockquote name="a7d4" id="a7d4" class="graf graf--pullquote graf-after--p">Callback from hell and pyramid of doom.</blockquote><h4 name="0cee" id="0cee" class="graf graf--h4 graf-after--pullquote">Running Node Web Server</h4><p name="5ae0" id="5ae0" class="graf graf--p graf-after--h4">ผมเรียนจบแล้ว เลยลองรับโปรเจค node backend มาหนึ่งชิ้นเป็น api แล้วทำงานคู่กับ frontend อีกทีม นั้นเป็นครั้งแรกที่ผมให้ทำงานแบบ front/back</p><p name="ebee" id="ebee" class="graf graf--p graf-after--p">สมัยเรียนผมรัน node ด้วย cli แต่ตอนนี้ต้องเป็น production แล้ว ด้วยการ googling อันเก่งกาจเลยได้ pm2, forever มาช่วยในการรันให้ โดยทำตัวเหมือน service ที่คอยดูแล node process อีกที พร้อมกับรู้จักการใช้ nginx มาเป็น reverse proxy ทำให้แม้จากข้างนอกเห็นว่าเป็น https แต่ก็จะสามารถใช้ node web server ที่รันอยู่หลังบ้านได้</p><h4 name="8f34" id="8f34" class="graf graf--h4 graf-after--p">Frontend Framework</h4><p name="e484" id="e484" class="graf graf--p graf-after--h4">ตอนนั้น (mid-2015) กระแส single page app รอบตัวผมมาแรงแซงโค้ง ผมเริ่มเขียนโปรแกรมบัญชีรายรับรายจ่ายบน ember js จนมาถึงโปรแกรมคลังหนังสือที่ซับซ้อนเพิ่มขึ้นบน angularjs ร่วมกับ express เจ้าเก่าในหน้าที่ backend</p><blockquote name="9091" id="9091" class="graf graf--pullquote graf-after--p">&lt;div ng-show=”book.isSoldOut()”&gt;…&lt;/div&gt;</blockquote><h4 name="780a" id="780a" class="graf graf--h4 graf-after--pullquote">Style Guide Era</h4><p name="ffc5" id="ffc5" class="graf graf--p graf-after--h4">ไม่ว่าจะ frontend หรือ backend พอโปรแกรมเริ่มใหญ่ ความซับซ้อนมากขึ้น จำนวนไฟล์กลายเป็นสิบๆ ผมเลยศึกษาว่าชาวบ้านเค้าเขียนกันยังไงให้มันจัดการได้ สำหรับ node นั้นลองหาศึกษาได้จาก npm repo ได้ว่าเค้าเขียนยังไงให้เป็น modular แต่สำหรับ angularjs ผมอาศัยอ่านจาก style guide ของคนอื่นเอา</p><h4 name="2e30" id="2e30" class="graf graf--h4 graf-after--p">Task Runner</h4><p name="31c1" id="31c1" class="graf graf--p graf-after--h4">เป็นเหมือนสิ่งที่อยู่คู่กับ js เหมือนเล่นเกมคอมต้องมีการ์ดจอ ผมเริ่มจาก grunt แล้วก็เอ๋อไปอยู่ช่วงใหญ่ๆ ก่อนจะใช้ gulp มาจนถึงทุกวันนี้ แล้วตอนนี้กำลังเริ่มสนใจ webpack</p><h4 name="5c83" id="5c83" class="graf graf--h4 graf-after--p">Automated Test</h4><p name="faf6" id="faf6" class="graf graf--p graf-after--h4">mocha เป็นชื่อที่ผมพบในการ googling ในการทำ test บน express โดยมักถูกใช้คู่กับ assert library เช่น chai หรือ supertest ที่ใช้ในการทดสอบ api endpoint ถ้าให้โปรแกรมเมอร์มือใหม่แนะนำเด็กจบใหม่ที่อยากสบายบนสาย express ก็คู่นั้นแหละเหมาะที่สุดแล้ว</p><h4 name="21c3" id="21c3" class="graf graf--h4 graf-after--p">DevOps, Docker</h4><p name="ac26" id="ac26" class="graf graf--p graf-after--h4">พอตัวละครครบแล้ว โปรแกรมพร้อม เทสพร้อม ผมเริ่มศึกษาว่า continuous integration (ci), continuous deployment (cd), devops คืออะไร ผมเริ่มจาก heroku platform ที่มีการทำงานง่ายๆ ตาม Dockerfile; configurate file ที่บอกว่า container เราหน้าตายังไงและทำงานอะไร</p><p name="c496" id="c496" class="graf graf--p graf-after--p">พร้อมกันตอนนั้นผมได้มีโอกาสทำงานแบบ agile; scrum ตอนนั้นเหมือนตาสว่าง เหมือนเห็นอีกโลกหนึ่งที่ไม่เห็น สิ่งที่เคยเรียนในวิชา software engineering กลายเป็นเหมือนเครื่องจักรไอน้ำเมื่อมองจากยุคอวกาศ ใครไม่เป็นตอนนี้เชยแล้วนะ</p><blockquote name="2d41" id="2d41" class="graf graf--pullquote graf-after--p">$ git push heroku master</blockquote><h4 name="cd41" id="cd41" class="graf graf--h4 graf-after--pullquote">ออกสู่โลกกว้าง</h4><p name="e604" id="e604" class="graf graf--p graf-after--h4">ผมเริ่มร่วมงาน contribute ต่างๆ เริ่มไปงานพบปะอย่าง barcamp, beercamp แบบถี่ๆ ผมเริ่มเขียนและแบ่งปันคนอื่น ผมทดลองใช้ solution ต่างๆ ไม่ว่าจะเป็น aws, google cloud, azure หรือ platform as a service อื่นตลอด ผมเริ่มอ่านเรื่อง team software process และมีความอยากลองเป็นผู้นำมากขึ้น หวังว่าผมจะได้โอกาสนั้นในเร็วๆ นี้</p><p name="551c" id="551c" class="graf graf--p graf-after--p graf--trailing">แล้วทั้งหมดนี้ก็คือ javascript ในแบบของผม</p></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/10b5591f68f"><time class="dt-published" datetime="2016-05-11T15:02:53.569Z">May 11, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A3%E0%B8%B2%E0%B8%A7%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%9C%E0%B8%A1%E0%B8%81%E0%B8%B1%E0%B8%9A-javascript-developer-10b5591f68f" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

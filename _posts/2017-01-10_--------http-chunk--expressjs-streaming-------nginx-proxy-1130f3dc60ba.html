@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>วิธีส่ง http chunk (expressjs streaming) ผ่าน nginx proxy</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">วิธีส่ง http chunk (expressjs streaming) ผ่าน nginx proxy</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="8a1a" class="section section--body section--first"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="d143" id="d143" class="graf graf--h3 graf--leading graf--title">วิธีส่ง http chunk (expressjs streaming) ผ่าน nginx proxy</h3><h3 name="5ab3" id="5ab3" class="graf graf--h3 graf-after--h3">tl;dr</h3><ul class="postList"><li name="1ae9" id="1ae9" class="graf graf--li graf-after--h3">http chunk encoding เป็นวิธีหนึ่งในการส่งข้อมูลแบบเรื่อยๆ และผมเอาประยุกต์ใช้กับการทำ streaming ผ่าน http endpoint โดยใช้ nginx เป็น ingress node</li><li name="324a" id="324a" class="graf graf--li graf-after--li">การทำ proxy ด้วย nginx แบบ out of box ต้องปิด <code class="markup--code markup--li-code">proxy_buffering</code> เพื่อให้ nginx ส่ง response จาก proxied server โดยทันที</li></ul><p name="4572" id="4572" class="graf graf--p graf-after--li">เรื่องมีอยู่ว่าผมทำ feature การ streaming ผ่าน http endpoint บน expressjs ที่มีหน้าตาประมาณ</p><pre name="417b" id="417b" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">// express.js</code></pre><pre name="d3ee" id="d3ee" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">app.get(&#39;/streaming&#39;, (req, res) =&gt; {<br>  source.on(&#39;data&#39;, (data) =&gt; {<br>    res.write(data)<br>  })<br>})</code></pre><p name="94f8" id="94f8" class="graf graf--p graf-after--pre">แล้ว deploy บน aws beanstalk แบบใน vpc ก่อนใช้ nginx ทำ proxy อีกรอบเพื่อเป็น ssl terminal</p><pre name="7a0c" id="7a0c" class="graf graf--pre graf-after--p">client -&gt; [ nginx -&gt; beanstalk (vpc) ]</pre><p name="b9c8" id="b9c8" class="graf graf--p graf-after--pre">แต่ปัญหาที่พบคือผู้ใช้สามารถเชื่อมต่อได้ถึง endpoint และไม่ได้ error แต่กลับไม่มีอะไร response กลับมาเลย เมื่อลองใช้ tcpdump ดูที่ nginx ก็เห็นว่ามีการวิ่งระหว่าง nginx &lt;-&gt; beantalk แล้วแสดงว่าปัญหาคงอยู่สักที่ใน nginx</p><p name="8646" id="8646" class="graf graf--p graf-after--p">หลังจากอ่านเอกสารของ nginx ในหมวด proxy พบว่ามี parameter ชื่อว่า proxy_buffering ซึ่งปกติจะเปิดเป็นค่า default ทำหน้าที่เก็บ response จาก upstream server ลง buffer ไว้จะถึงขนาดหนึ่งก่อนจะ return กลับไป หลังจากปิดค่าที่ว่าแล้วสั่ง reload nginx ระบบก็ทำงานได้อย่างต้องการ</p><pre name="ad26" id="ad26" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code"># nginx configurate file</code></pre><pre name="57cf" id="57cf" class="graf graf--pre graf-after--pre graf--trailing"><code class="markup--code markup--pre-code">location /beanstalk {<br>    proxy_pass http://beanstalk-endpoint/;<br>    proxy_buffering off;<br>    include proxy_params;<br>}</code></pre></div></div></section><section name="b09d" class="section section--body section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="a654" id="a654" class="graf graf--p graf--leading"><strong class="markup--strong markup--p-strong">References</strong></p><ul class="postList"><li name="b9b5" id="b9b5" class="graf graf--li graf-after--p graf--trailing"><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering" data-href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">Module ngx_http_proxy_module</a></li></ul></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/1130f3dc60ba"><time class="dt-published" datetime="2017-01-10T17:00:00.000Z">January 10, 2017</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%A7%E0%B8%B4%E0%B8%98%E0%B8%B5%E0%B8%AA%E0%B9%88%E0%B8%87-http-chunk-expressjs-streaming-%E0%B8%9C%E0%B9%88%E0%B8%B2%E0%B8%99-nginx-proxy-1130f3dc60ba" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

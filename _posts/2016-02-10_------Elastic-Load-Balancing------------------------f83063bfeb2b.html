@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>เมื่อ Elastic Load Balancing พังความชิบหายก็มาเยือน</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">เมื่อ Elastic Load Balancing พังความชิบหายก็มาเยือน</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="b631" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="66fc" id="66fc" class="graf graf--h3 graf--leading graf--title">เมื่อ Elastic Load Balancing พังความชิบหายก็มาเยือน</h3><h3 name="cb68" id="cb68" class="graf graf--h3 graf-after--h3">มันคืออะไร</h3><p name="86fd" id="86fd" class="graf graf--p graf-after--h3">Elastic Load Balancing ทำหน้าที่รองรับ traffic จากภายนอกไปยัง Amazon EC2 instance ทำให้สามารถทำการกระจายระบบแบบแนวนอน (horizontal scaling) ได้อย่างง่ายๆ เพียงแค่กดเพิ่มจำนวนของ instance แล้วที่เหลือก็ปล่อยให้เป็นหน้าที่ของ load balancer</p><h3 name="bf07" id="bf07" class="graf graf--h3 graf-after--p">ใช้แล้วดีอย่างไร</h3><ul class="postList"><li name="0f33" id="0f33" class="graf graf--li graf-after--h3">Availability อย่างที่บอกไปว่ามันช่วยให้เพิ่มการรองรับ traffic ปริมาณมากจากภายนอกก่อนกระจายการทำงานให้ instance ที่อยู่ภายใน</li><li name="ab60" id="ab60" class="graf graf--li graf-after--li">Elasticity มันยืดหยุ่นเพราะสามารถขยายออกและเข้าได้ตามปริมาณจริง มาเยอะก็ขยายออกเยอะ ถ้าลดลงก็หดตัวได้เองตามที่เราตั้งค่าไว้</li><li name="53a7" id="53a7" class="graf graf--li graf-after--li">Security การเชื่อมต่อภายในจะเป็น private network ทั้งหมด การใช้งานจากภายนอกอาจจะไม่รู้ด้วยซ้ำว่ามี private network ตัวนี้ค่อยกระจายการทำงานอยู่ นอกจากนี้ยังรอบรับการทำ ssl/tls ให้ web service ด้วย</li></ul><h3 name="5a6e" id="5a6e" class="graf graf--h3 graf-after--li">แล้ววันนี้เกิดอะไรขึ้น</h3><p name="6467" id="6467" class="graf graf--p graf-after--h3">ปัญหาวันนี้เกิดขึ้นเมื่อมีปริมาณการใช้เกินกว่าค่าหนึ่งมันแทนที่มันควรจะเพิ่ม instance ให้ระบบเพื่อรองรับการใช้งาน แต่มันไม่ยอมขยายและยังไม่ยอม forward package ไปหา instance ซะด้วย (ก่อนที่บริการจะ down ไป latency time เริ่มสูงขึ้นเรื่อยๆ จน timeout) แบบนี้ก็งานเข้าสิครับแถมเป็นช่วงที่การใช้งานพุ่งเป็น spike เลยต้องหาวิธีการแก้ปัญหาให้เร็วที่สุด</p><p name="3d4a" id="3d4a" class="graf graf--p graf-after--p">เนื่องจากการย้ายกลับมาที่ local server ที่เป็น physical จำเป็นต้องรอให้ dns update ทั้งหมดซึ่งไม่ทันการแน่ๆ และการใช้ Elastic Beanstalk นั้นผูกกับ cname อีกเราเลยต้องหาทางแก้ปัญหาในระบบ AWS เท่านั้น (Beanstalk คือ application as a service ที่เรียก instance ว่า environment)</p><h3 name="48f8" id="48f8" class="graf graf--h3 graf-after--p">แล้วผมแก้อย่างไร</h3><p name="e8dc" id="e8dc" class="graf graf--p graf-after--h3">เมื่อเกิดปัญหาก็ต้องหาคนแก้ แน่นอนว่าต้องมองหา technical support อยู่แล้ว แต่ด้วยความขี้งกทำระบบเลย deploy บน Amazon free-tier ซึ่งไม่รวม technical support อีก ผมนี้ถึงกับยืนขึ้นเลยครับ</p><p name="d120" id="d120" class="graf graf--p graf-after--p">หลังจากลุกไปเข้าห้องน้ำและแวะเติมน้ำกลั่น (ดื่มน้ำ) ผมก็นึกถึงว่าใน Elastic Beanstalk นั้นมีคุณสมบัติในการ swap environment ได้นินา เหมือนยกภูเขาออกจากอกเลย แค่สร้าง environment ใหม่แล้วทำการ swap เข้ากับ cname เดิมที่ผูกไว้ แค่นี้ระบบก็กลับมา back to online แล้ว</p><h3 name="5b2d" id="5b2d" class="graf graf--h3 graf-after--p">เรื่องนี้สอนอะไรบ้าง</h3><ul class="postList"><li name="c630" id="c630" class="graf graf--li graf-after--h3">ถึงจะเป็น cloud ก็ต้องหาแผนสำรองไว้เสมอ และต้องตระหนักว่าแผนสำรองมันใช้ได้ทันทีหรือไม่ อย่างแผนสำรองผมคือ migrate กลับมาที่ local server แต่ก็ทำไม่ได้เพราะข้อจำกัดของ dns</li><li name="b04b" id="b04b" class="graf graf--li graf-after--li">การจะฝากชีวิตของงานเราไว้กับบริการใดๆ กรุณาศึกษาช่องทางการติดต่อ support ไว้ล่วงหน้า กรณีนี้ผมไม่เคยรู้มาก่อนเลยว่าของฟรีต้องช่วยตัวเองเท่านั้น</li><li name="60ef" id="60ef" class="graf graf--li graf-after--li graf--trailing">เลิกงก ในบางบริการเราอาจจะมองว่าแพง แต่ให้ลองดูดีๆ ว่าราคานั้นคือรวมบริการ support ไว้แล้วหรือไม่ ยิ่งถ้าแพงแล้วไม่มี support ก็ไม่ค่อยน่าคบนะ</li></ul></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/f83063bfeb2b"><time class="dt-published" datetime="2016-02-10T17:00:00.000Z">February 10, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B9%88%E0%B8%AD-elastic-load-balancing-%E0%B8%9E%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%8A%E0%B8%B4%E0%B8%9A%E0%B8%AB%E0%B8%B2%E0%B8%A2%E0%B8%81%E0%B9%87%E0%B8%A1%E0%B8%B2%E0%B9%80%E0%B8%A2%E0%B8%B7%E0%B8%AD%E0%B8%99-f83063bfeb2b" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>วิธีเรียก Entity hidden key มาใช้งานใน Google Datastore</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">วิธีเรียก Entity hidden key มาใช้งานใน Google Datastore</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="f668" class="section section--body section--first"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="6de4" id="6de4" class="graf graf--h3 graf--leading graf--title">วิธีเรียก Entity hidden key มาใช้งานใน Google Datastore</h3><h4 name="a965" id="a965" class="graf graf--h4 graf-after--h3 graf--subtitle">ยาวไปไม่อ่าน</h4><ul class="postList"><li name="1851" id="1851" class="graf graf--li graf-after--h4">Google Datastore การ Insert, Update, Delete ต้องทำผ่าน Key</li><li name="dffd" id="dffd" class="graf graf--li graf-after--li">แต่ Document พูดถึง Key แค่ในขั้นตอน Query ไม่ได้พูดถึงการนำไปใช้ต่อใน Insert, Update, Delete ทำให้มือใหม่เสียเวลาค้นคว้านิดหน่อย</li><li name="7a06" id="7a06" class="graf graf--li graf-after--li graf--trailing">เรียกได้ผ่าน Key ของแต่ละ Entity ได้โดย <code class="markup--code markup--li-code">let key = entity[datastore.KEY]</code></li></ul></div></div></section><section name="a310" class="section section--body section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="0b12" id="0b12" class="graf graf--p graf--leading">Google Datastore เป็นบริการ Full-managed NoSQL database ที่น่าสนใจตัวหนึ่งด้วยความสามารถ การทำ Transaction ได้และมี Free tier ให้ทดลองใช้ในปริมาณที่เยอะจนเหลือสำหรับบาง Production</p><p name="24a3" id="24a3" class="graf graf--p graf-after--p">ตัว Datastore เปิดให้เราสามารถ Query ได้เช่นเดียวกับ NoSQL ทั่วไป และมีข้อแม้สำหรับการ Insert (save), Update และ Delete ว่าต้องทำผ่าน Key ของ Entity (ชื่อเรียกของหนึ่ง Data Document) แต่ถึงอย่างนั้นตัว Library Document ของ Nodejs กลับไม่ได้พูดถึงการใช้ Key ในงานลักษณะ Query and delete เลยจะมีแค่ Query เฉยๆ ดังนั้นผมจะขอจดโน้ตไว้ว่ามันสามารถใช้งานในลักษะนี้ได้ด้วย</p><pre name="76f1" id="76f1" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">let Datastore = require(&#39;@google-cloud/datastore&#39;)<br>let projectId = &#39;PROJECT_ID&#39;<br>let datastore = Datastore({projectId})<br>let kind = &#39;Company&#39;<br>let query = datastore.createQuery(kind)</code></pre><pre name="8158" id="8158" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">query.select().run().then((data) =&gt; {<br>  let entities = data[0]<br>  return entities.map((entity) =&gt; {<br>    let key = entity[datastore.KEY]<br>    return key<br>  })<br>}).then((keys) =&gt; {<br>  return datastore.delete(keys)<br>}).catch((err) =&gt; {<br>  console.error(err)<br>})</code></pre><pre name="c38a" id="c38a" class="graf graf--pre graf-after--pre graf--trailing">PS. เขียน ณ datastore lib 0.7.1 นะครับ</pre></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/619390087f9a"><time class="dt-published" datetime="2017-03-19T17:00:00.000Z">March 19, 2017</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%A7%E0%B8%B4%E0%B8%98%E0%B8%B5%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%81-entity-hidden-key-%E0%B8%A1%E0%B8%B2%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B9%83%E0%B8%99-google-datastore-619390087f9a" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

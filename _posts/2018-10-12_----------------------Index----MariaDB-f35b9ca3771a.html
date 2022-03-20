@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>พฤติกรรมที่น่าสนใจของ Index บน MariaDB</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">พฤติกรรมที่น่าสนใจของ Index บน MariaDB</h1>
+</header>
+<section data-field="subtitle" class="p-summary">
+บทความตอนนี้จะต่อยอดมาจากที่ผมเคยเขียนไว้ในปีที่แล้ว [1] เพื่อตอบคำถามว่าจะรู้ได้อย่างไรว่า Index ถูกเรียกใช้งาน
+</section>
+<section data-field="body" class="e-content">
+<section name="b78b" class="section section--body section--first"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="c546" id="c546" class="graf graf--h3 graf--leading graf--title">พฤติกรรมที่น่าสนใจของ Index บน MariaDB</h3><p name="ab6f" id="ab6f" class="graf graf--p graf-after--h3">บทความตอนนี้จะต่อยอดมาจากที่ผมเคยเขียนไว้ในปีที่แล้ว [<a href="https://medium.com/@titipat/%E0%B8%A1%E0%B8%B2%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%88%E0%B8%B1%E0%B8%81%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD-profiling-explain-%E0%B8%9A%E0%B8%99-mysql-mariadb-%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%96%E0%B8%AD%E0%B8%B0-d25b20cadd91" data-href="https://medium.com/@titipat/%E0%B8%A1%E0%B8%B2%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%88%E0%B8%B1%E0%B8%81%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD-profiling-explain-%E0%B8%9A%E0%B8%99-mysql-mariadb-%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%96%E0%B8%AD%E0%B8%B0-d25b20cadd91" class="markup--anchor markup--p-anchor" target="_blank">1</a>] เพื่อตอบคำถามว่าจะรู้ได้อย่างไรว่า Index ถูกเรียกใช้งาน</p><p name="e2b1" id="e2b1" class="graf graf--p graf-after--p">ก่อนอื่นขอเกลิ่นก่อนว่า Index คือส่วนที่สร้างเพิ่มเติม ไม่จำเป็นต้องมีก็ได้ ถ้ามีช่วยให้การเข้าถึงข้อมูลทั้งหมดเร็วขึ้น [<a href="https://www.pearson.com/us/higher-education/program/Elmasri-Fundamentals-of-Database-Systems-7th-Edition/PGM189052.html" data-href="https://www.pearson.com/us/higher-education/program/Elmasri-Fundamentals-of-Database-Systems-7th-Edition/PGM189052.html" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">2</a>] มักนำใช้งานเมื่อขนาดจำนวนของข้อมูลมีมากจนการ Scan ทั้งหมดทั้งตารางเริ่มช้า แต่ไม่นิยมทำถ้าตารางนั้นถูก Update บ่อยครั้งเพราะต้องปรับปรุง Index ตามไปด้วย</p><p name="fc7b" id="fc7b" class="graf graf--p graf-after--p">การทดลองจะใช้ฐานข้อมูล hackernews [<a href="https://medium.com/@hoffa/hacker-news-on-bigquery-now-with-daily-updates-so-what-are-the-top-domains-963d3c68b2e2" data-href="https://medium.com/@hoffa/hacker-news-on-bigquery-now-with-daily-updates-so-what-are-the-top-domains-963d3c68b2e2" class="markup--anchor markup--p-anchor" target="_blank">3</a>] เช่นเดิมและใช้ Query เดิมว่าค้นหาเรื่องทั้งหมดที่เขียนโดยผู้ใช้ชื่อ landist</p><p name="9d16" id="9d16" class="graf graf--p graf-after--p">ในการอ่านผลจะใช้คำสั่ง explain [<a href="https://mariadb.com/kb/en/library/explain/" data-href="https://mariadb.com/kb/en/library/explain/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">4</a>] ร่วมกับ Profiling ที่เคยได้พูดถึงไปในตอนที่แล้ว</p><figure name="03b5" id="03b5" class="graf graf--figure graf--iframe graf-after--p"><script src="https://gist.github.com/titipat/31e09da307eda9ac7e2d4c4db2bdea05.js"></script></figure><h3 name="d255" id="d255" class="graf graf--h3 graf-after--figure">การทดลองแรก: Index ถูกเรียกใช้หรือไม่</h3><p name="00b7" id="00b7" class="graf graf--p graf-after--h3">ทดลอง Query โดยไม่มี Index ใช้เวลา 1.78857600 วินาที จุดที่อยากชี้ให้เห็นอยู่ที่ช่อง Type ที่มีค่าเป็น ALL อ่านค่าได้ว่ามีการ Scan ข้อมูลทุก Record ภายในตารางซึ่งช้า</p><figure name="1659" id="1659" class="graf graf--figure graf--iframe graf-after--p"><script src="https://gist.github.com/titipat/63a1068ab12d089b3a01a782ee85796a.js"></script></figure><p name="6788" id="6788" class="graf graf--p graf-after--figure">ต่อมา ทำการสร้าง Index โดยใช้ Column author เพียงอย่างเดียว เมื่อทำการ Query ใช้เวลา 0.00526200 วินาที อ่านผลของ Explain ได้ว่า: ในช่อง Key มีการค้นหาจาก Index ชื่อ author_index ในช่อง Type มีค่าเป็น ref หมายถึงมีการใช้ Unique index ในการค้นหาข้อมูล จากทั้งสองช่องบอกได้ว่ามีการใช้งาน Index</p><figure name="2993" id="2993" class="graf graf--figure graf--iframe graf-after--p"><script src="https://gist.github.com/titipat/710530e612fca1d9120e30564fd0365c.js"></script></figure><h3 name="b8e7" id="b8e7" class="graf graf--h3 graf-after--figure">พฤติกรรมที่น่าสนใจ</h3><p name="71b9" id="71b9" class="graf graf--p graf-after--h3">แล้ว Index จะถูกเรียกใช้งานไหม ถ้า Input column ที่ต้องเป็นส่วนหนึ่งของ Multiple-column index?</p><p name="45aa" id="45aa" class="graf graf--p graf-after--p">จะทำการทดลองโดยการสร้าง Index สองตัวได้แก่: author+title และ title+author</p><p name="9fa5" id="9fa5" class="graf graf--p graf-after--p">ทดลอง Query เดิมบน title+author ใช้เวลา 1.67971000 วินาที ใกล้เคียงกับเมื่อไม่มี Index ในช่อง Key มีค่าเป็น Null แสดงว่าไม่มี Index ถูกใช้และในช่อง Type มีค่าเป็น ALL แสดงว่าเกิดการ Scan ข้อมูลทุก Record เหมือนกับตอนที่ยังไม่ได้สร้าง Index นั้นคือกรณี Index: title+author จะไม่ได้ถูกเรียกใช้งาน</p><figure name="a13d" id="a13d" class="graf graf--figure graf--iframe graf-after--p"><script src="https://gist.github.com/titipat/0618852a826b0722e80af28a1f48fc51.js"></script></figure><p name="7610" id="7610" class="graf graf--p graf-after--figure">ทดลองบน Index: author+title ใช้เวลา 0.00574600 วินาที ใกล้เคียงกับมี Author index อ่านผลได้ว่า author_title_index ถูกเรียกใช้งานแบบ ref เช่นเดียวกับ author_index แสดงว่ากรณี Index: author+title จะถูกเรียกใช้</p><figure name="dba3" id="dba3" class="graf graf--figure graf--iframe graf-after--p"><script src="https://gist.github.com/titipat/2f452125c9353f5e43799ab93f2942d8.js"></script></figure><h3 name="bc79" id="bc79" class="graf graf--h3 graf-after--figure">สรุป</h3><p name="3230" id="3230" class="graf graf--p graf-after--h3 graf--trailing">เราจะรู้ได้ว่า Index ถูกเรียกใช้หรือไม่ด้วยคำสั่ง Explain และแม้ Input column จะไม่ตรงกับ Multiple-column index ทั้งหมด จะยังมีบางกรณีที่ Index ถูกเรียกใช้งานได้ นั้นคือเมื่อ Input column อยู่เป็นลำดับแรกของ Multiple-column index ในลักษณะเดียวกับ Sorted key และได้ความเร็วที่ใกล้เคียงกับ Single-column index</p></div></div></section><section name="5a0c" class="section section--body section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="88f4" id="88f4" class="graf graf--h3 graf--leading">อ้างอิง</h3><ol class="postList"><li name="8007" id="8007" class="graf graf--li graf-after--h3"><a href="https://medium.com/@titipat/%E0%B8%A1%E0%B8%B2%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%88%E0%B8%B1%E0%B8%81%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD-profiling-explain-%E0%B8%9A%E0%B8%99-mysql-mariadb-%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%96%E0%B8%AD%E0%B8%B0-d25b20cadd91" data-href="https://medium.com/@titipat/%E0%B8%A1%E0%B8%B2%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%88%E0%B8%B1%E0%B8%81%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD-profiling-explain-%E0%B8%9A%E0%B8%99-mysql-mariadb-%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%96%E0%B8%AD%E0%B8%B0-d25b20cadd91" class="markup--anchor markup--li-anchor" rel="nofollow" target="_blank">https://medium.com/@titipat/%E0%B8%A1%E0%B8%B2%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%88%E0%B8%B1%E0%B8%81%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD-profiling-explain-%E0%B8%9A%E0%B8%99-mysql-mariadb-%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%96%E0%B8%AD%E0%B8%B0-d25b20cadd91</a></li><li name="ce15" id="ce15" class="graf graf--li graf-after--li"><a href="https://www.pearson.com/us/higher-education/program/Elmasri-Fundamentals-of-Database-Systems-7th-Edition/PGM189052.html" data-href="https://www.pearson.com/us/higher-education/program/Elmasri-Fundamentals-of-Database-Systems-7th-Edition/PGM189052.html" class="markup--anchor markup--li-anchor" rel="nofollow noopener" target="_blank">https://www.pearson.com/us/higher-education/program/Elmasri-Fundamentals-of-Database-Systems-7th-Edition/PGM189052.html</a></li><li name="602f" id="602f" class="graf graf--li graf-after--li"><a href="https://medium.com/@hoffa/hacker-news-on-bigquery-now-with-daily-updates-so-what-are-the-top-domains-963d3c68b2e2" data-href="https://medium.com/@hoffa/hacker-news-on-bigquery-now-with-daily-updates-so-what-are-the-top-domains-963d3c68b2e2" class="markup--anchor markup--li-anchor" rel="nofollow" target="_blank">https://medium.com/@hoffa/hacker-news-on-bigquery-now-with-daily-updates-so-what-are-the-top-domains-963d3c68b2e2</a></li><li name="377a" id="377a" class="graf graf--li graf-after--li graf--trailing"><a href="https://mariadb.com/kb/en/library/explain/" data-href="https://mariadb.com/kb/en/library/explain/" class="markup--anchor markup--li-anchor" rel="nofollow noopener" target="_blank">https://mariadb.com/kb/en/library/explain/</a></li></ol></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/f35b9ca3771a"><time class="dt-published" datetime="2018-10-12T08:52:41.865Z">October 12, 2018</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%9E%E0%B8%A4%E0%B8%95%E0%B8%B4%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%99%E0%B9%88%E0%B8%B2%E0%B8%AA%E0%B8%99%E0%B9%83%E0%B8%88%E0%B8%82%E0%B8%AD%E0%B8%87-index-%E0%B8%9A%E0%B8%99-mariadb-f35b9ca3771a" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

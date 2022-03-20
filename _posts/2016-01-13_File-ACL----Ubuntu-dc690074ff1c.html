@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>File ACL บน Ubuntu</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">File ACL บน Ubuntu</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="eccb" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="0568" id="0568" class="graf graf--h3 graf--leading graf--title">File ACL บน Ubuntu</h3><p name="db5c" id="db5c" class="graf graf--p graf-after--h3">File permission เป็นวิธีที่ใช้ในการจัดการสิทธิของผู้ใช้ในระบบ unix ทั้งหลาย แต่บางครั้งแค่การตั้ง file permission แบบ user/group/other อาจไม่เพียงพอ งานนี้ผมจะใช้สิ่งที่เรียกว่า file permission access control lists เข้ามาช่วยครับ</p><p name="27bd" id="27bd" class="graf graf--p graf-after--p">สำหรับ distro ตระกูล centos ผมเข้าใจว่ามีติดเครื่องมาแล้ว แต่สำหรับ ubuntu อาจต้องลงเพิ่มด้วยคำสั่ง</p><pre name="52b6" id="52b6" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ sudo apt-get install acl</code></pre><h4 name="e12e" id="e12e" class="graf graf--h4 graf-after--pre">การดู acl</h4><p name="2fd6" id="2fd6" class="graf graf--p graf-after--h4">เรียกดู acl ของ directory นั้นๆ ด้วยคำสั่ง</p><pre name="d78b" id="d78b" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ getfacl /var/www<br>getfacl: Removing leading &#39;/&#39; from absolute path names<br># file: var/www<br># owner: root<br># group: root<br>user::rwx<br>group::r-x<br>group:green:rwx<br>mask::rwx<br>other::r-x</code></pre><p name="1662" id="1662" class="graf graf--p graf-after--pre">จากตัวอย่างด้านบนหมายความว่า</p><ul class="postList"><li name="d6de" id="d6de" class="graf graf--li graf-after--p">ไฟล์เป็นของ user root</li><li name="44f3" id="44f3" class="graf graf--li graf-after--li">กลุ่มเจ้าของไฟล์คือ group root</li><li name="2bfb" id="2bfb" class="graf graf--li graf-after--li">เจ้าของไฟล์มีสิทธิ rwx</li><li name="5f13" id="5f13" class="graf graf--li graf-after--li">คนในกลุ่ม root มีสิทธิ r-x</li><li name="0c6c" id="0c6c" class="graf graf--li graf-after--li">คนในกลุ่ม green มีสิทธิ rwx</li><li name="6753" id="6753" class="graf graf--li graf-after--li">mask จะเป็น rwx (หาอ่านต่อได้เรื่อง mask, umask, default permission)</li><li name="22ca" id="22ca" class="graf graf--li graf-after--li">คนอื่นๆ มีสิทธิ r-x</li></ul><h4 name="0b3f" id="0b3f" class="graf graf--h4 graf-after--li">เพิ่มกลุ่มผู้ใช้ใน acl</h4><p name="94ca" id="94ca" class="graf graf--p graf-after--h4">ความเจ๋งของ acl คือเราสามารถระบุได้ว่าใครหรือกลุ่มไหนสามารถทำอะไรได้บ้าง เช่น ถ้าผมต้องการให้กลุ่ม blue อ่านได้อย่างเดียว</p><pre name="e5fb" id="e5fb" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ setfacl -m g:blue:r /var/www</code></pre><h4 name="5e20" id="5e20" class="graf graf--h4 graf-after--pre">ลบออกจาก acl</h4><pre name="031d" id="031d" class="graf graf--pre graf-after--h4"><code class="markup--code markup--pre-code">$ setfacl -x g:blue /var/www</code></pre><h4 name="97c0" id="97c0" class="graf graf--h4 graf-after--pre">ตั้งค่า default permission</h4><p name="269e" id="269e" class="graf graf--p graf-after--h4">อันนี้ก็เป็นขอดีอีกอย่าง ถ้าเราต้องการตั้ง permission ให้ไฟล์ที่จะถูกสร้างต่อๆ ไปของผู้ใช้แต่ละคนเมื่อก่อนเราต้องนั่งเขียน mask กันปวดตับมากมาย แต่ตอนนี้เราสามารถทำได้ง่ายๆ แค่เพิ่ม <code class="markup--code markup--p-code">-d</code> ที่หมายถึง default เข้าไป เช่น ให้ผู้ใช้ monitor อ่านไฟล์ที่จะถูกสร้างต่อๆ ไปได้อย่างเดียว</p><pre name="9e2b" id="9e2b" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ setfacl -dm u:monitor:r /var/www</code></pre><p name="d6eb" id="d6eb" class="graf graf--p graf-after--pre graf--trailing">สำหรับท่านที่สนใจอ่านต่อได้ที่ <a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Storage_Administration_Guide/ch-acls.html" data-href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Storage_Administration_Guide/ch-acls.html" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Storage_Administration_Guide/ch-acls.html</a> และ <a href="https://help.ubuntu.com/community/FilePermissionsACLs" data-href="https://help.ubuntu.com/community/FilePermissionsACLs" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">https://help.ubuntu.com/community/FilePermissionsACLs</a></p></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/dc690074ff1c"><time class="dt-published" datetime="2016-01-13T17:00:00.000Z">January 13, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/file-acl-%E0%B8%9A%E0%B8%99-ubuntu-dc690074ff1c" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

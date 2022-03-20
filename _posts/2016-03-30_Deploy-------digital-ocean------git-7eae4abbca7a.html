@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Deploy ไปที่ digital ocean ด้วย git</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">Deploy ไปที่ digital ocean ด้วย git</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="2213" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="4df9" id="4df9" class="graf graf--h3 graf--leading graf--title">Deploy ไปที่ digital ocean ด้วย git</h3><h4 name="eba0" id="eba0" class="graf graf--h4 graf-after--h3 graf--subtitle">Code deployment</h4><p name="38c4" id="38c4" class="graf graf--p graf-after--h4">การ deployment นั้นจะพูดให้มันไม่มีอะไรก็แค่เอา code ขึ้นไปวางที่ production server หรือจะพูดให้ยากว่าต้องไป run test, build ก็จะมีอะไรขึ้น ในปัจจุบันที่การ deployment นั้นแทบจะไม่ต้องทำมือแล้วเนื่องจากปัจจุบันมี continuous integration (ci) และ continuous deployment (cd) ที่ทั้งหมดเป็น automated task running ผู้พัฒนาแค่สนใน dev ให้ดีและ test ให้ครอบคลุมก็เพียงพอ</p><p name="9f0f" id="9f0f" class="graf graf--p graf-after--p">วันนี้มีเพื่อนคนหนึ่งซึ่งเค้าเป็น dev และไม่ถนัดด้านนี้ส่งบทความ <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" data-href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">How To Set Up Automatic Deployment with Git with a VPS</a> มาถามก็เลยลองทำให้ดูแล้วเกิดเป็นเอนทรี่นี้ขึ้นมา</p><h4 name="d952" id="d952" class="graf graf--h4 graf-after--p">ความต้องการ</h4><ul class="postList"><li name="a6e8" id="a6e8" class="graf graf--li graf-after--h4">Digitalocean ซัก 1 droplet หรือที่อื่นก็ได้แล้วแต่สะดวก</li><li name="c618" id="c618" class="graf graf--li graf-after--li">ทำการผูก ssh-key ให้เรียบร้อยก่อน</li><li name="6b25" id="6b25" class="graf graf--li graf-after--li">ลง apache web server ไว้ที่ <code class="markup--code markup--li-code">/var/www/html</code></li></ul><h4 name="5eda" id="5eda" class="graf graf--h4 graf-after--li">Hooks</h4><p name="e55a" id="e55a" class="graf graf--p graf-after--h4">Hooks ก็เหมือน script ตัวหนึ่งที่จะทำต่อเมื่อมี event สักอย่าง และวันนี้เราจะใช้ hooks ที่เรียกว่า <code class="markup--code markup--p-code">post-receive</code> ที่จะทำต่อเมื่อมีการ push มาเสร็จแล้วมาใช้ในการ deployment</p><p name="5024" id="5024" class="graf graf--p graf-after--p">เริ่มจากสร้าง repo ของเราที่ production server</p><pre name="2b5c" id="2b5c" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">mkdir -p /var/repo/myapp.git<br>cd /var/repo/myapp.git<br>git init --bare</code></pre><p name="44bf" id="44bf" class="graf graf--p graf-after--pre">สำหรับคำสั่ง <code class="markup--code markup--p-code">git init --bare</code> จะเป็นการสร้าง version control เปล่าๆ ที่ไม่มี source ใดๆ</p><p name="b832" id="b832" class="graf graf--p graf-after--p">สร้าง hooks script ของเราด้วยคำสั่ง</p><pre name="5e79" id="5e79" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">vi hooks/post-receive</code></pre><p name="5228" id="5228" class="graf graf--p graf-after--pre">แล้วใส่ script ว่า</p><pre name="6c46" id="6c46" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">#!/bin/sh<br>git --work-tree=/var/www/html --git-dir=/var/repo/myapp.git checkout -f</code></pre><p name="7111" id="7111" class="graf graf--p graf-after--pre">โดย script ข้างบนจะทำการ checkout code ของเราไปที่ directory <code class="markup--code markup--p-code">/var/www/html</code> ของ apache web server และอย่าลืมตั้ง permission ให้ hooks script สามารถ execute ได้ด้วยล่ะ</p><pre name="ca32" id="ca32" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">chmod u+x hooks/post-receive</code></pre><p name="3282" id="3282" class="graf graf--p graf-after--pre">จากนั้นย้อนกลับมาที่เครื่องของเรา ถ้ามี git repo อยู่แล้วก็ข้างไปอีกขั้นตอนได้เลย แต่ถ้าใครมีมีก็สร้าง repo กันก่อน</p><pre name="078a" id="078a" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">mkdir -p /my/project<br>cd /my/project<br>git init<br>echo &quot;Hello&quot; &gt; index.html<br>git add .<br>git commit -m &quot;Add index.html&quot;</code></pre><p name="f098" id="f098" class="graf graf--p graf-after--pre">ให้ทำการเพิ่ม remote branch ชื่อ <code class="markup--code markup--p-code">live</code> ด้วยคำสั่ง</p><pre name="35cf" id="35cf" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">git remote add live ssh://your-user@your-server/var/repo/myapp.git</code></pre><p name="b4d4" id="b4d4" class="graf graf--p graf-after--pre">จากนั้นถ้าต้องการ deploy เมื่อไหร่ก็แค่สั่ง</p><pre name="1b63" id="1b63" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">git push live master</code></pre><p name="00fc" id="00fc" class="graf graf--p graf-after--pre">แล้วลองเข้า web server ของเราดูว่าเป็นอย่างไร</p><p name="cdf1" id="cdf1" class="graf graf--p graf-after--p">เท่านี้ hooks script ที่เราตั้งไว้ก็จะ checkout code ของเราไปที่ directory ของ web server ให้เอง ดังนั้นใครที่ยังใช้การ copy วางอยู่ลองหันมาใช้วิธีนี้ดูก็ได้นะครับ</p><p name="99b3" id="99b3" class="graf graf--p graf-after--p">ถ้าต้องมีขั้นตอนอื่นก็สามารถปรับแต่งได้เองเลย ส่วนถ้าใครสนใจเรื่อง ci, cd ก็ติดตามอ่านกันต่อไป ผมเองก็เพิ่งจะเริ่มเหมือนกัน แล้วจะมาเล่าให้ฟังอีกครับ</p><p name="431a" id="431a" class="graf graf--p graf-after--p graf--trailing"><strong class="markup--strong markup--p-strong">ที่มา</strong> <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" data-href="https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deployment-with-git-with-a-vps" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">How To Set Up Automatic Deployment with Git with a VPS</a></p></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/7eae4abbca7a"><time class="dt-published" datetime="2016-03-30T17:00:00.000Z">March 30, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/deploy-%E0%B9%84%E0%B8%9B%E0%B8%97%E0%B8%B5%E0%B9%88-digital-ocean-%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-git-7eae4abbca7a" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

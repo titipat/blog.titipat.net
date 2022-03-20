@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>ต่อ USB-Serial (Cisco-Console) อย่างง่ายๆบน OS X</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">ต่อ USB-Serial (Cisco-Console) อย่างง่ายๆบน OS X</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="9144" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="a957" id="a957" class="graf graf--h3 graf--leading graf--title">ต่อ USB-Serial (Cisco-Console) อย่างง่ายๆบน OS X</h3><figure name="c1e3" id="c1e3" class="graf graf--figure graf-after--h3"><img class="graf-image" data-image-id="0*qZofO7hp8X0YmoXt.jpg" data-width="1434" data-height="1076" data-external-src="https://lh4.googleusercontent.com/-QUm3RNFYaas/VCTpOheWczI/AAAAAAAAJ8Q/-7gS1tJIfJI/w1434-h1076-no/IMG_20140926_110642.jpg" src="https://cdn-images-1.medium.com/max/800/0*qZofO7hp8X0YmoXt.jpg"></figure><p name="5fb6" id="5fb6" class="graf graf--p graf-after--figure">ขั้นแรกไปหาหัวแปลง USB to Serial (RS232) มาก่อนค่าเสียหายจะอยู่ราวๆ 600–2000 บาทขึ้นกับความหรูหราของอุปกรณ์</p><p name="8771" id="8771" class="graf graf--p graf-after--p">หลังจากเสียบเข้ากับ USB Port ของท่านแล้วให้ลองตรวจสอบว่ามี Driver แล้วหรือยังด้วย</p><pre name="0351" id="0351" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">ls /dev/ | grep serial</code></pre><p name="f1ad" id="f1ad" class="graf graf--p graf-after--pre">ถ้าเจอ tty ตัวไหนมีชื่อ Serial ก็น่าจะพร้อมใช้แล้วแหละ ใครไม่ขึ้นลองหาโหลดไดรเวอร์จากเว็บของผู้ผลิตดู</p><figure name="1d55" id="1d55" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="0*PnIe2E3-y441FY8w.png" data-width="1492" data-height="1076" data-external-src="https://lh4.googleusercontent.com/-zg5NTZtLKHA/VCTpbBMENFI/AAAAAAAAJ78/oF5595i3pFk/w1492-h1076-no/Screen%2BShot%2B2014-09-26%2Bat%2B11.09.10.png" src="https://cdn-images-1.medium.com/max/800/0*PnIe2E3-y441FY8w.png"></figure><h4 name="d791" id="d791" class="graf graf--h4 graf-after--figure">เริ่มเชื่อมต่อ</h4><p name="50b2" id="50b2" class="graf graf--p graf-after--h4">การใช้งานใน OS X ง่ายมากไม่จำเป็นต้องลงอะไรเพิ่มแล้วแค่</p><pre name="08a5" id="08a5" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">screen /dev/ 9600</code></pre><h4 name="21f8" id="21f8" class="graf graf--h4 graf-after--pre">Break Sequence</h4><p name="e94b" id="e94b" class="graf graf--p graf-after--h4">การส่งคำสั่ง Break ทำได้โดยคีบอร์ดตามลำดับนี้</p><pre name="b02b" id="b02b" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">control+A<br>control+B</code></pre><p name="60c6" id="60c6" class="graf graf--p graf-after--pre">แค่นี้แหละครับง่ายดายมากถ้าเทียบกับ Linux ที่ต้องลง minicom หรือ Windows ที่ต้องลง Hyper Terminal หรือ Putty</p><figure name="063f" id="063f" class="graf graf--figure graf-after--p graf--trailing"><img class="graf-image" data-image-id="0*ENQwFD0tziRWzqHk.png" data-width="1492" data-height="1076" data-external-src="https://lh4.googleusercontent.com/-zs-JYEvWQsI/VCTpbjMaR8I/AAAAAAAAJ8A/AHzDqbsLUQQ/w1492-h1076-no/Screen%2BShot%2B2014-09-26%2Bat%2B11.10.13.png" src="https://cdn-images-1.medium.com/max/800/0*ENQwFD0tziRWzqHk.png"></figure></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/eec768ef1037"><time class="dt-published" datetime="2014-09-25T17:00:00.000Z">September 25, 2014</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%95%E0%B9%88%E0%B8%AD-usb-serial-cisco-console-%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%87%E0%B9%88%E0%B8%B2%E0%B8%A2%E0%B9%86%E0%B8%9A%E0%B8%99-os-x-eec768ef1037" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

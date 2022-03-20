@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>MongoDB ODM on Phalcon PHP</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">MongoDB ODM on Phalcon PHP</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="3065" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="2ec4" id="2ec4" class="graf graf--h3 graf--leading graf--title">MongoDB ODM on Phalcon PHP</h3><p name="088a" id="088a" class="graf graf--p graf-after--h3">หลายคนน่าจะเคยใช้ Object-Relational Map (ORM) กันมาแล้ว แต่วันนี้ผมจะมาลองใช้สิ่งที่เรียกว่า ODM (Object-Document Map) เพื่อใช้งาน MongoDB ร่วมกับ Phalcon PHP</p><p name="afdd" id="afdd" class="graf graf--p graf-after--p">เริ่มจากการ inject mongo client สำหรับการเชื่อมต่อไปหา mongodb และ collection manager ที่ใช้จัดการคำสั่ง collection เสียก่อน ในโค้ดด้านลงผมเชื่อมไปหา database ที่ชื่อว่า bilio</p><pre name="2a76" id="2a76" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">// index.php</code></pre><pre name="e51c" id="e51c" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// ...</code></pre><pre name="5360" id="5360" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// Setting up the mongodb connection<br>$di-&gt;set(&#39;mongo&#39;, function () {<br>  $mongo = new MongoClient();<br>  return $mongo-&gt;selectDB(&quot;biblio&quot;);<br>}, true);</code></pre><pre name="0623" id="0623" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$di-&gt;set(&#39;collectionManager&#39;, function(){<br>  return new PhalconMvcCollectionManager();<br>}, true);</code></pre><pre name="2d7d" id="2d7d" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// ...</code></pre><pre name="b5ea" id="b5ea" class="graf graf--pre graf-after--pre">แล้วก็สร้าง model ของ collection ที่เราต้องการใช้งาน โดยกำหนดค่าภายใน getSource() ให้เป็นชื่อของ collection ที่ต้องการ</pre><pre name="b596" id="b596" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">use PhalconMvcCollection;</code></pre><pre name="d30b" id="d30b" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">class Users extends Collection {<br>    public function getSource() {<br>      return &quot;users&quot;;<br>    }<br>}</code></pre><pre name="b382" id="b382" class="graf graf--pre graf-after--pre">แค่ที่ก็พร้อมใช้งานแล้วครับ โดยการใช้งานก็ไม่ต่างจาก ORM เลย</pre><pre name="3edb" id="3edb" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// ...</code></pre><pre name="017c" id="017c" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// Create new user<br>$user = new Users();<br>$user-&gt;name = &quot;John&quot;;<br>$user-&gt;email = &quot;john@example.com&quot;;<br>$user-&gt;save();</code></pre><pre name="d286" id="d286" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// Find user by id<br>$user = Users::findById($id);</code></pre><pre name="2b5b" id="2b5b" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// Find user by name<br>$user = User::findFirst(array(<br>  array(&#39;name&#39; =&gt; &#39;John&#39;)<br>));<br>$user-&gt;surname = &quot;Doe&quot;;<br>$user-&gt;save();</code></pre><pre name="83e2" id="83e2" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// ...</code></pre><pre name="3dac" id="3dac" class="graf graf--pre graf-after--pre graf--trailing">Reference: <a href="https://docs.phalconphp.com/en/latest/reference/odm.html" data-href="https://docs.phalconphp.com/en/latest/reference/odm.html" class="markup--anchor markup--pre-anchor" rel="noopener" target="_blank">ODM (Object-Document Mapper)¶</a></pre></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/ddc6632ade78"><time class="dt-published" datetime="2015-12-13T17:00:00.000Z">December 13, 2015</time></a>.</p><p><a href="https://medium.com/@titipat/mongodb-odm-on-phalcon-php-ddc6632ade78" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

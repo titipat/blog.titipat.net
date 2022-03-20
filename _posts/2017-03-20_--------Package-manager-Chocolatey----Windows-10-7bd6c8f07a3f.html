@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>ติดตั้ง Package manager Chocolatey บน Windows 10</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">ติดตั้ง Package manager Chocolatey บน Windows 10</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="cb5f" class="section section--body section--first"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="034e" id="034e" class="graf graf--h3 graf--leading graf--title">ติดตั้ง Package manager Chocolatey บน Windows 10</h3><p name="4921" id="4921" class="graf graf--p graf-after--h3">Chocolatey เป็นอีกหนึ่ง Windows Package manager ที่คล้ายกับ apt-get ใน Ubuntu/Debian, yum ใน CentOS/RHEL, หรือ homebrew ใน macOS ที่ผมใช้มาสักระยะหนึ่งแล้วคิดว่าดีมากจึงนำมาแนะนำให้ลองกัน</p><h4 name="9b69" id="9b69" class="graf graf--h4 graf-after--p">ติดตั้ง</h4><p name="f225" id="f225" class="graf graf--p graf-after--h4">เปิด Powershell ขึ้นมาแบบ Administrator แล้วตั้งค่า ExecutionPolicy เป็น RemoteSigned เพื่อให้เราสามารถเรียกใช้สคริปจากภายนอกที่ได้รับการรับรองได้</p><pre name="df86" id="df86" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">Set-ExecutionPolicy RemoteSigned</code></pre><p name="76fe" id="76fe" class="graf graf--p graf-after--pre">ยังคงอยู่ที่ Powershell ตัวเดิม ลงพระเอกของเรา Chocolatey ขั้นตอนนี้ใครที่ยังไม่มี NuGet ที่เป็น Package manager อีกตัวหนึ่งให้ตอบตกลง</p><pre name="bc5a" id="bc5a" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex</code></pre><p name="8463" id="8463" class="graf graf--p graf-after--pre">แค่นี้ก็พร้อมใช้งาน ทดลองเบื้องต้นได้โดยใช้คำสั่งว่า choco เช่น</p><pre name="8708" id="8708" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">choco upgrade chocolatey</code></pre><p name="46be" id="46be" class="graf graf--p graf-after--pre graf--trailing">ในอนาคตหากจำเป็นต้องลง Package ที่ไม่ได้รับรองจริงๆ สามารถเปลี่ยนเป็น ExecutionPolicy Unrestricted ได้นะแต่ต้องเพิ่มความระมัดระวังหรือตั้งแล้วเปลี่ยนกลับทันทีเมื่อลงเสร็จ</p></div></div></section><section name="d1ac" class="section section--body section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="a7d6" id="a7d6" class="graf graf--p graf--leading">References:</p><ul class="postList"><li name="6df7" id="6df7" class="graf graf--li graf-after--p"><a href="https://chocolatey.org/" data-href="https://chocolatey.org/" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">Chocolatey</a></li><li name="a954" id="a954" class="graf graf--li graf-after--li graf--trailing"><a href="https://ss64.com/ps/set-executionpolicy.html" data-href="https://ss64.com/ps/set-executionpolicy.html" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">ExecutionPolicy</a></li></ul></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/7bd6c8f07a3f"><time class="dt-published" datetime="2017-03-20T17:00:00.000Z">March 20, 2017</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B1%E0%B9%89%E0%B8%87-package-manager-chocolatey-%E0%B8%9A%E0%B8%99-windows-10-7bd6c8f07a3f" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

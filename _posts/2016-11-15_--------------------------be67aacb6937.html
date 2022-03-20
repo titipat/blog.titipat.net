@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>เบื้องหลังระบบวิ่งมาราธอน</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">เบื้องหลังระบบวิ่งมาราธอน</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="3f0a" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="f46a" id="f46a" class="graf graf--h3 graf--leading graf--title">เบื้องหลังระบบวิ่งมาราธอน</h3><p name="295b" id="295b" class="graf graf--p graf-after--h3">ผมได้จับพลัดจับผลูมีส่วนร่วมกับงานวิ่งมาราธอนที่หนึ่ง จากงานที่แค่ deploy ระบบยังไงไม่ให้ล่มกลายเป็นพัฒนาทั้งระบบ มองในแง่ดีก็ถือว่าเป็นประสบการณ์ล่ะนะ</p><h4 name="d9bd" id="d9bd" class="graf graf--h4 graf-after--p">ระบบมีอะไรบ้าง</h4><p name="cb90" id="cb90" class="graf graf--p graf-after--h4">งานนี้เป็นเว็บแอปครับ ผมแยกเว็บออกเป็นสองตัวหน้าเว็บสำหรับข้อมูล กับหน้าเว็บลงทะเบียน</p><ul class="postList"><li name="1953" id="1953" class="graf graf--li graf-after--p"><strong class="markup--strong markup--li-strong">หน้าข้อมูล</strong> เขียนด้วย nodejs ใช้ express, nunjucks ตัวเว็บมีการทำ i18n แบบง่ายๆ ด้วยการใช้ i18n string substitution แบบดิบๆ</li><li name="9d66" id="9d66" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">หน้าลงทะเบียน</strong> เขียนด้วย php 7.x เนื่องจากเวลาในการพัฒนาค่อนข้างจำกัดมากถึงมากที่สุด ประมาณสัปดาห์เดียว ผมเลือก yii2 framework เพราะว่ามันมี gii ที่เป็น code generator สามารถสร้าง mvc pattern และ form เบื้องต้นได้โดยอ้างอิงจาก data schema แต่จากการใช้งานภายหลังพบว่า active record ของ yii2 ไปเรียก column name ทุกครั้งทำให้เกิดการ read แบบไม่จำเป็นเยอะมาก</li><li name="5516" id="5516" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">ส่วนสนับสนุน</strong> มีอีกทีมทำหน้าที่การ support ผ่าน facebook page และอีเมล</li></ul><h4 name="89bd" id="89bd" class="graf graf--h4 graf-after--li">เครื่องมือที่ใช้</h4><ul class="postList"><li name="ddb0" id="ddb0" class="graf graf--li graf-after--h4"><strong class="markup--strong markup--li-strong">Cloudflare</strong> เป็น dns, cdn, caching จ่ายเป็น professional plan</li><li name="7ae3" id="7ae3" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Heroku</strong> เป็น web worker แล้วใช้ add-ons ในการจัดการ logs, alert ส่วนของการ scaling เป็นแค่ลักษณะ scale up โดยตัวหน้าข้อมูลเปิดไว้ที่ standard 1x, หน้าลงทะเบียนเป็น stardard 1x เช่นกัน จะมีวันแรกที่เปิดใช้งานวิ่งอยู่ที่ stardard 2x — performance m ทั้งสองเว็บเปิด automatic deployment จาก github repository อีกที ทำให้ dev สามารถ test และ deploy เองได้</li><li name="68f7" id="68f7" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">AWS RDS</strong> เลือกใช้ mysql 5.7 ขนาด db.t2.micro เป็น database instance</li><li name="d154" id="d154" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Mailgun</strong> สำหรับการส่งเมลออกและ forward ไปหา helpdesk ณ ขณะที่เขียนยังใช้ free plan แต่อนาคตอาจต้องจ่ายเพราะส่งเมลจำนวนหนึ่งในการยืนยันผล</li><li name="065b" id="065b" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">GrooveHQ</strong> เป็น support helpdesk ในการรับเมล support@<em class="markup--em markup--li-em">*</em>marathon.com ตอนนี้ยังใช้ free plan ซึ่งใช้งานได้ 3 agent</li><li name="18ae" id="18ae" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Github</strong> เป็น code repository และเชื่อมกับ automatic deployment ของ heroku, ใช้ issue ในการพูดคุยของ dev</li><li name="4332" id="4332" class="graf graf--li graf-after--li"><strong class="markup--strong markup--li-strong">Basecamp</strong> ใช้ในช่วงแรกของโปรเจค แต่ก็ปิดไปเพราะไม่ค่อยมีคนใช้ เสียดายตัง</li></ul><h4 name="5674" id="5674" class="graf graf--h4 graf-after--li">Update 2017–01–25</h4><p name="47d8" id="47d8" class="graf graf--p graf-after--h4">เนื่องจากต้องส่ง confirmation mail ให้กับผู้วิ่งแล้ว Mailgun ติด limit ส่งได้แค่ 100 ฉบับต่อวันแบบไม่ทราบสาเหตุ เลยเปลี่ยนมาใช้ <a href="sendgrid.com" data-href="sendgrid.com" class="markup--anchor markup--p-anchor" target="_blank">sendgrid.com</a> essentials plan ที่ $9.99 ต่อเดือน ส่งได้ 40,000 ฉบับ บริการมี native php library ให้เรียบร้อย</p><p name="ee9c" id="ee9c" class="graf graf--p graf-after--p graf--trailing">ตอนใช้จริงเนื่องจากไม่ได้ทำการ <a href="https://sendgrid.com/docs/Classroom/Deliver/Delivery_Introduction/warming_up_ips.html" data-href="https://sendgrid.com/docs/Classroom/Deliver/Delivery_Introduction/warming_up_ips.html" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">warm-up ip</a> ตามคำแนะนำ ทำให้เมลส่วนใหญ่ยังไม่สามารถส่งถึงผู้รับได้ทันที แต่จะติดสถานะ deffered แต่ทั้งหมด 4,000 ฉบับก็ถูกส่งถึงในเวลาวันกว่าๆ ถือว่าเป็นการแก้ปัญหาเฉพาะหน้าไป</p></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/be67aacb6937"><time class="dt-published" datetime="2016-11-15T17:00:00.000Z">November 15, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B9%80%E0%B8%9A%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%AB%E0%B8%A5%E0%B8%B1%E0%B8%87%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%A7%E0%B8%B4%E0%B9%88%E0%B8%87%E0%B8%A1%E0%B8%B2%E0%B8%A3%E0%B8%B2%E0%B8%98%E0%B8%AD%E0%B8%99-be67aacb6937" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

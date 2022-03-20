@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>แบ็คอัพข้อมูลจากโฮส WordPress ฟรีแบบฟรีๆ บน Google Cloud Always Free Tier</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">แบ็คอัพข้อมูลจากโฮส WordPress ฟรีแบบฟรีๆ บน Google Cloud Always Free Tier</h1>
+</header>
+<section data-field="subtitle" class="p-summary">
+หลังจากเราโฮส Wordpress แบบไม่เสียเงินด้วย Google Cloud Always Free Tier กันไปแล้ว ตอนนี้เราจะแบ็คอัพข้อมูลของเว็บเรากันแบบฟรีๆ ด้วย Google…
+</section>
+<section data-field="body" class="e-content">
+<section name="5bbc" class="section section--body section--first"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><figure name="20f7" id="20f7" class="graf graf--figure graf--leading"><img class="graf-image" data-image-id="1*FIJp6bYNCJNJuPAXtYSBdg.jpeg" data-width="5469" data-height="1316" src="https://cdn-images-1.medium.com/max/800/1*FIJp6bYNCJNJuPAXtYSBdg.jpeg"></figure><h3 name="8f40" id="8f40" class="graf graf--h3 graf-after--figure graf--title">แบ็คอัพข้อมูลจากโฮส WordPress ฟรีแบบฟรีๆ บน Google Cloud Always Free Tier</h3><p name="13cf" id="13cf" class="graf graf--p graf-after--h3 graf--trailing">หลังจากเรา<a href="https://blog.titipat.net/2017/08/09/%E0%B9%82%E0%B8%AE%E0%B8%AA-wordpress-%E0%B8%9F%E0%B8%A3%E0%B8%B5%E0%B8%9A%E0%B8%99-google-cloud-always-free-tier/" data-href="https://blog.titipat.net/2017/08/09/%E0%B9%82%E0%B8%AE%E0%B8%AA-wordpress-%E0%B8%9F%E0%B8%A3%E0%B8%B5%E0%B8%9A%E0%B8%99-google-cloud-always-free-tier/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">โฮส Wordpress แบบไม่เสียเงินด้วย Google Cloud Always Free Tier</a> กันไปแล้ว ตอนนี้เราจะแบ็คอัพข้อมูลของเว็บเรากันแบบฟรีๆ ด้วย Google Cloud Storage</p></div></div></section><section name="2fa2" class="section section--body"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="766e" id="766e" class="graf graf--p graf--leading">นอกจากบริการ Virtual machine อย่าง Google Compute Engine แล้วกูเกิลคลาวด์ยังใจดีให้ใช้บริการเก็บข้อมูล Google Cloud Storage แบบฟรีตลอดชาติภายใน US region ถึง 5 GB แต่การจะอัพโหลดขึ้นไปแล้วต้องค่อยลบส่วนที่เกินการใช้งานก็ดูจะเสียเวลา วันนี้ผมเลยจะแนะนำการใช้ Lifecycle ในการลบไฟล์ที่เก่าเกินกว่าช่วงเวลาหนึ่งโดยอัตโนมัติ</p><h4 name="3d25" id="3d25" class="graf graf--h4 graf-after--p">รู้จัก Storage class</h4><p name="5b82" id="5b82" class="graf graf--p graf-after--h4">Google Cloud Storage เป็นบริการเก็บ Object file เพื่อเรียกใช้งานต่อไป แต่ว่าประเภทของการเก็บนั้นไม่ได้เหมือนกันเสมอไป บางไฟล์ใช้บ่อยควรจะเข้าถึงได้รวดเร็ว บางไฟล์ใช้น้อยหรีืออาจไม่ได้ใช้เลยถ้าต้องจ่ายราคาเดียวกับกรณีแรกก็ดูไม่ค่อยคุ้ม จึงเป็นที่มาของการแบ่ง Storage class ตามความถี่ในการเรียกใช้งานได้แก่</p><ol class="postList"><li name="9ec5" id="9ec5" class="graf graf--li graf-after--p">Multi regional มีการเรียกใช้บ่อยจากผู้ใช้ทั่วโลก</li><li name="5e0e" id="5e0e" class="graf graf--li graf-after--li">Regional มีการเรียกใช้บ่อยจากผู้ใช้ในภูมิภาคเดียว ค่าบริการเก็บถูกลงมา</li><li name="e46c" id="e46c" class="graf graf--li graf-after--li">Nearline มีการเรียกใช้น้อยครั้ง ค่าบริการเก็บถูกลงอีก ประมาณหนึ่งครั้งต่อเดือน ถ้าลบก่อน 30 วันจะมีค่าใช้จ่าย การเรียกใช้มีค่าใช้จ่ายเล็กน้อย</li><li name="115e" id="115e" class="graf graf--li graf-after--li">Coldline มีการเรียกใช้น้อยครั้งที่สุด ค่าบริการเก็บถูกที่สุด ประมาณหนึ่งครั้งต่อปี ถ้าลบก่อน 90 วันจะมีค่าใช้จ่าย การเรียกใช้มีค่าใช้จ่ายมากที่สุด</li></ol><p name="f660" id="f660" class="graf graf--p graf-after--li">Ojbect class ประเภท nearline และ Coldline มักถูกนำมาใช้งานในการแบ็คอัพข้อมูล, Archive storage, Disaster recovery</p><h4 name="66dc" id="66dc" class="graf graf--h4 graf-after--p">รู้จัก Lifecycle</h4><p name="d78d" id="d78d" class="graf graf--p graf-after--h4">Object lifecycle เป็นลูกเล่นหนึ่งของ Google Cloud Storage ที่เราสามารถตั้งค่า Time to live (TTL) ของไฟล์ได้ว่าเมื่อครบระยะเวลาหนึ่งจะให้ทำอะไร ตัวอย่างที่พบบ่อยคือการดาวน์เกรดจาก Multi-regional หรือ regional มาเป็น Nearline หรือ Coldline เมื่อผ่านไประยะเวลาหนึ่งแล้ว และการลบไฟล์จากระบบเมื่อผ่านไปนานมากๆ เพื่อประหยัดค่าใช้จ่าย ซึ่งผมจะนำมาใช้ในการตั้งลบไฟล์เพื่อควบคุมไม่ให้เกิน Free tier</p><h4 name="2cbd" id="2cbd" class="graf graf--h4 graf-after--p">รู้จัก Access control ของ Google Cloud กันเสียก่อน</h4><p name="f22f" id="f22f" class="graf graf--p graf-after--h4">ก่อนที่จะลงมือทำผมขออธิบายเกี่ยวกับ Access control ของบริการ Google Cloud Service หน่อยครับ ปกติแล้วการจะใช้ Google Cloud Service หรือ Google API จะต้องมีการสร้างคีย์เสียก่อน แต่เนื่องจากคราวนี้เราเรียกใช้จากภายใน Google Cloud เองเลยมีการอำนวยความสะดวกให้ด้วยสิ่งที่เรียกว่า Service account</p><p name="9cd8" id="9cd8" class="graf graf--p graf-after--p">เจ้า Service account ที่ชื่อ Compute Engine default service account จะถูกสร้างมาพร้อมกับโปรเจคอยู่แล้ว เมื่อมันถูกกำหนดให้กับ Compute Engine ทุกการเรียกใช้บริการจากภายใน Compute Engine นั้นจะถูกจัดการเรื่องคีย์ให้เอง</p><p name="1717" id="1717" class="graf graf--p graf-after--p">แต่การใช้เพียง Service account อาจไม่ครอบคลุมบางกรณี ดังนั้น Compute Engine จะมี <a href="https://cloud.google.com/compute/docs/access/create-enable-service-accounts-for-instances#changeserviceaccountandscopes" data-href="https://cloud.google.com/compute/docs/access/create-enable-service-accounts-for-instances#changeserviceaccountandscopes" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Access scope</a> ของแต่ละ Instance คุมอยู่อีกชั้นหนึ่ง ดังนั้นลำดับการตรวจสอบสิทธิคือ (1) ตรวจจาก Service account ตามด้วย (2) ตรวจจาก Access scope อีกครั้ง</p><h4 name="db49" id="db49" class="graf graf--h4 graf-after--p">ลงไม้ลงมือ</h4><h4 name="106e" id="106e" class="graf graf--h4 graf-after--h4">1. สร้าง Cloud Storage bucket</h4><p name="b462" id="b462" class="graf graf--p graf-after--h4">ตรงนี้อย่าลืมว่าต้องตั้งเป็น US region</p><h4 name="80ad" id="80ad" class="graf graf--h4 graf-after--p">2. กำหนด Lifecycle</h4><p name="c614" id="c614" class="graf graf--p graf-after--h4">สร้างไฟล์ Lifecycle แล้วเซฟเป็นสกุล <code class="markup--code markup--p-code">.json</code> ตัวอย่างด้านล่างคือให้ลบไฟล์ที่เก่าเกินกว่า 90 วัน</p><pre name="4e6f" id="4e6f" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">{<br>  &quot;rule&quot;:<br>  [<br>    {<br>      &quot;action&quot;: {&quot;type&quot;: &quot;Delete&quot;},<br>      &quot;condition&quot;: {&quot;age&quot;: 90}<br>    }<br>  ]<br>}</code></pre><p name="3ea3" id="3ea3" class="graf graf--p graf-after--pre">แล้วก็ทำการตั้งค่า Lifecycle ให้กับ Bucket ของเรา ทำให้ต่อจากนี้ไฟล์ที่อัพโหลดขึ้นไปจะได้รับการตั้งค่านี้ไปด้วย</p><pre name="83f3" id="83f3" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">$ gsutil lifecycle set myLifecycle.json gs://YOUR_BUCKET_NAME</code></pre><h4 name="2805" id="2805" class="graf graf--h4 graf-after--pre">3. กำหนดสิทธิ Service account</h4><p name="bb9f" id="bb9f" class="graf graf--p graf-after--h4">เข้าไปที่ IAM แล้วตั้งให้ Service account ที่ต้องการสามารถ Read, write ไปยัง Cloud Storage</p><h4 name="57c2" id="57c2" class="graf graf--h4 graf-after--p">4. กำหนด Access scope ของ Instance</h4><p name="5107" id="5107" class="graf graf--p graf-after--h4">ค่าเริ่มต้นของ Cloud Storage จะมีแค่ Read ดังนั้นเพิ่ม Write เข้าไปครับ ถ้าใครยังเปิด Instance อยู่ต้องปิดก่อนถึงจะเปลี่ยนค่าได้</p><h4 name="3b83" id="3b83" class="graf graf--h4 graf-after--p">5. สร้าง Cron script ง่ายๆ</h4><p name="fc78" id="fc78" class="graf graf--p graf-after--h4">ผมสร้างสคริปแล้วใส่ไว้ใน /etc/cron.daily เพื่อให้แบ็คอัพข้อมูลรายวัน เปลี่ยนชื่อ <code class="markup--code markup--p-code">YOUR_BUCKET_NAME</code> เป็นชื่อของตัวเองด้วยนะ</p><pre name="a8c7" id="a8c7" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">#!/bin/bash<br>cd /tmp<br>ARCHIVE_DATE=$(date +&#39;%Y-%m-%d&#39;)<br>echo Back up to Google Cloud Storage $ARCHIVE_DATE<br>DB_FILE=$ARCHIVE_DATE.sql.gz<br>SRC_FILE=$ARCHIVE_DATE.gz<br>mysqldump wordpress | gzip &gt; $DB_FILE<br>tar -zcf $SRC_FILE /var/www/wordpress<br>gsutil cp $DB_FILE $SRC_FILE gs://YOUR_BUCKET_NAME/<br>rm $SRC_FILE $DB_FILE</code></pre><p name="3ba5" id="3ba5" class="graf graf--p graf-after--pre graf--trailing">ถ้าไม่ผิดพลาดอะไร Instance ก็จะอัพโหลดไฟล์ WordPress และฐานข้อมูลไปไว้ที่ Cloud Storage และลบไฟล์ที่เก่าเกินกว่า 90 วันเองโดยอัตโนมัติ เนื่องจากเอนทรี่นี้ผมจากที่เคยทำไปเมื่อเดือนที่แล้วโดยไม่ได้ทดสอบทำตาม ถ้ามีพลาดตรงไหนก็ทักกันได้</p></div></div></section><section name="8606" class="section section--body section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="0e45" id="0e45" class="graf graf--p graf--leading">แล้วนี้ก็เป็นวิธีที่ผมแบ็คอัพไฟล์โฮสฟรีแบบฟรีๆ ของผม แล้วของทุกคนทำอย่างไรกันครับ มาเล่าให้ผมฟังด้วยนะ</p><h4 name="c81e" id="c81e" class="graf graf--h4 graf-after--p">References</h4><ul class="postList"><li name="54fd" id="54fd" class="graf graf--li graf-after--h4"><a href="https://cloud.google.com/free/docs/always-free-usage-limits#gcs_name" data-href="https://cloud.google.com/free/docs/always-free-usage-limits#gcs_name" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">https://cloud.google.com/free/docs/always-free-usage-limits#gcs_name</a></li><li name="f696" id="f696" class="graf graf--li graf-after--li"><a href="https://cloud.google.com/storage/docs/storage-classes" data-href="https://cloud.google.com/storage/docs/storage-classes" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">https://cloud.google.com/storage/docs/storage-classes</a></li><li name="0d0a" id="0d0a" class="graf graf--li graf-after--li"><a href="https://cloud.google.com/storage/docs/lifecycle" data-href="https://cloud.google.com/storage/docs/lifecycle" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">https://cloud.google.com/storage/docs/lifecycle</a></li><li name="7889" id="7889" class="graf graf--li graf-after--li graf--trailing"><a href="https://cloud.google.com/compute/docs/access/create-enable-service-accounts-for-instances#changeserviceaccountandscopes" data-href="https://cloud.google.com/compute/docs/access/create-enable-service-accounts-for-instances#changeserviceaccountandscopes" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">https://cloud.google.com/compute/docs/access/create-enable-service-accounts-for-instances#changeserviceaccountandscopes</a></li></ul></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/1727199948a6"><time class="dt-published" datetime="2017-08-25T16:04:24.000Z">August 25, 2017</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B9%81%E0%B8%9A%E0%B9%87%E0%B8%84%E0%B8%AD%E0%B8%B1%E0%B8%9E%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%88%E0%B8%B2%E0%B8%81%E0%B9%82%E0%B8%AE%E0%B8%AA-wordpress-%E0%B8%9F%E0%B8%A3%E0%B8%B5%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%9F%E0%B8%A3%E0%B8%B5%E0%B9%86-%E0%B8%9A%E0%B8%99-google-cloud-always-free-tier-1727199948a6" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

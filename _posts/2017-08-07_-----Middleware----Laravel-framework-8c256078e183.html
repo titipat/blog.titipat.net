@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>โน้ต Middleware ใน Laravel framework</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">โน้ต Middleware ใน Laravel framework</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="48ae" class="section section--body section--first"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="41b4" id="41b4" class="graf graf--h3 graf--leading graf--title">โน้ต Middleware ใน Laravel framework</h3><p name="82e6" id="82e6" class="graf graf--p graf-after--h3 graf--trailing">พอดีได้ไปช่วย Debug แอปมาเลยขอจดบันทึกเอาไว้เผื่อจะเป็นประโยชน์ต่อไปครับ</p></div></div></section><section name="e511" class="section section--body section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h4 name="48cb" id="48cb" class="graf graf--h4 graf--leading">รู้จัก Middleware</h4><p name="7a4a" id="7a4a" class="graf graf--p graf-after--h4">อย่างที่ทราบกันว่า Web application framework ส่วนใหญ่จะทำงานแบบ Route-based อยู่แล้ว เมื่อก่อนจะเป็น Controller หรือตัว C จาก MVC หลังจากที่แอปของเรามี Route เป็น Entry point แล้วจึงง่ายกับการจัดการด้วย Middleware</p><p name="6ffa" id="6ffa" class="graf graf--p graf-after--p">Middleware จะทำหน้าที่ขั้นกลางตามชื่อของมัน จะเอาไปใส่ไว้ตรงไหนก็ได้ของ Route chain ของเราเพื่อดักการทำงาน หน้าที่ของมันคือ (1) ส่งการทำงานไปยัง Route หรือ Middleware ตัวต่อไปถัดจากมัน (2) หยุดการทำงานแล้วคืนค่า Response บางอย่าง</p><h4 name="3647" id="3647" class="graf graf--h4 graf-after--p">ตัวอย่างการทำงาน</h4><p name="aaed" id="aaed" class="graf graf--p graf-after--h4">สมมุติผมมี 2 Route คือ</p><pre name="09b1" id="09b1" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">- [] ---&gt; /login<br>- [ Authentication Middleware ] ---&gt; /dashboard</code></pre><p name="f6cd" id="f6cd" class="graf graf--p graf-after--pre">ที่ <code class="markup--code markup--p-code">/login</code> ไม่ว่ายังไงก็จะเจอหน้าล๊อกอิน แต่สำหรับ <code class="markup--code markup--p-code">/dashboard</code> จะมี Middleware อยู่หนึ่งตัวเพื่อตรวจว่าผู้ใช้เข้าระบบแล้วหรือไหม ผลที่ได้ควรจะมี 2 อย่างคือ (1) ผู้ใช้ที่เข้าสู่ระบบแล้วควรจะเห็น Resource ภายใน <code class="markup--code markup--p-code">/dashboard</code> หรือ (2) ถ้ายังไม่ได้เข้าระบบควรจะโดน Redirect ไปที่ <code class="markup--code markup--p-code">/login</code></p><h4 name="4673" id="4673" class="graf graf--h4 graf-after--p">Middleware ใน Laravel</h4><p name="509e" id="509e" class="graf graf--p graf-after--h4">Middleware ของ Laravel ผมแบ่งออกเป็น 3 ระดับจากใหญ่สุดไปเล็กสุดคือ</p><h4 name="4ce1" id="4ce1" class="graf graf--h4 graf-after--p">Global middleware</h4><p name="4738" id="4738" class="graf graf--p graf-after--h4">ทุก HTTP request จะถูก Middleware กลุ่มนี้ทำงานทั้งหมด ใช้งานโดยการ Register ที่ Property <code class="markup--code markup--p-code">$middleware</code> ของคลาส Kernal <code class="markup--code markup--p-code">app/Http/Kernel.php</code> (ไม่อยากใช้คำว่าตัวแปรเพราะเป็น Object)</p><h4 name="f03d" id="f03d" class="graf graf--h4 graf-after--p">Group middleware</h4><p name="9fc9" id="9fc9" class="graf graf--p graf-after--h4">ใน Framework ยุคใหม่ๆ จะสามารถรวมหลาย Route เป็นกลุ่มได้เพื่อลดการเขียนโค้ดซ้ำ <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself" data-href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">สนใจอ่านต่อได้ที่ DRY: Don’t repeat yourself</a> ใช้งานได้โดยการเพิ่ม Key ของกลุ่มที่ต้องการที่ Property <code class="markup--code markup--p-code">$middlewareGroups</code> ในคลาส Kernal</p><p name="1452" id="1452" class="graf graf--p graf-after--p">ตัวอย่าง</p><pre name="1b60" id="1b60" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">// Kernal.php<br>/**<br> * The application&#39;s route middleware groups.<br> *<br> * @var array<br> */<br>protected $middlewareGroups = [<br>    &#39;web&#39; =&gt; [<br>        AppHttpMiddlewareEncryptCookies::class,<br>        IlluminateCookieMiddlewareAddQueuedCookiesToResponse::class,<br>        IlluminateSessionMiddlewareStartSession::class,<br>        IlluminateViewMiddlewareShareErrorsFromSession::class,<br>        AppHttpMiddlewareVerifyCsrfToken::class,<br>        IlluminateRoutingMiddlewareSubstituteBindings::class,<br>    ],</code></pre><pre name="b76f" id="b76f" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">&#39;myMiddleware&#39; =&gt; [<br>          AppHttpMiddlewareMyMiddleware::class<br>    ]</code></pre><pre name="37db" id="37db" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">&#39;api&#39; =&gt; [<br>        &#39;throttle:60,1&#39;,<br>        &#39;auth:api&#39;,<br>    ],<br>];</code></pre><pre name="e10a" id="e10a" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// web.php</code></pre><pre name="4bcf" id="4bcf" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">Route::group([&#39;middleware&#39; =&gt; [&#39;web&#39;, &#39;myMiddleware&#39;]], function () {<br>    // my routes<br>});</code></pre><h4 name="cec3" id="cec3" class="graf graf--h4 graf-after--pre">Route middleware</h4><p name="a92e" id="a92e" class="graf graf--p graf-after--h4">ตัวสุดท้ายคือ Middleware ที่ทำงานราย Route วิธีการใช้คือให้ Register ไว้ที่ Property <code class="markup--code markup--p-code">$routeMiddleware</code> ภายในคลาส Kernal ก่อนเรียกใช้เป็นราย Route ไปตามต้องการ</p><p name="207a" id="207a" class="graf graf--p graf-after--p">ตัวอย่าง</p><pre name="76da" id="76da" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">// Kernal.php</code></pre><pre name="7f9b" id="7f9b" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">protected $routeMiddleware = [<br>    &#39;auth&#39; =&gt; IlluminateAuthMiddlewareAuthenticate::class,<br>    &#39;auth.basic&#39; =&gt; IlluminateAuthMiddlewareAuthenticateWithBasicAuth::class,<br>    &#39;bindings&#39; =&gt; IlluminateRoutingMiddlewareSubstituteBindings::class,<br>    &#39;can&#39; =&gt; IlluminateAuthMiddlewareAuthorize::class,<br>    &#39;guest&#39; =&gt; AppHttpMiddlewareRedirectIfAuthenticated::class,<br>    &#39;throttle&#39; =&gt; IlluminateRoutingMiddlewareThrottleRequests::class,<br>    &#39;myFirstMiddleware&#39; =&gt; AppHttpMiddlewareMyFirstMiddleware::class,<br>    &#39;mySecondMiddleware&#39; =&gt; AppHttpMiddlewareMySecondMiddleware::class,<br>];</code></pre><pre name="723c" id="723c" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// web.php</code></pre><pre name="4612" id="4612" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">Route::get(&#39;admin/profile&#39;, function () {<br>    // do something<br>})-&gt;middleware(&#39;myFirstMiddleware&#39;, &#39;mySecondMiddleware&#39;);</code></pre><h4 name="c03a" id="c03a" class="graf graf--h4 graf-after--pre">ทิ้งทาย</h4><p name="b50b" id="b50b" class="graf graf--p graf-after--h4">Middleware เป็นการออกแบบที่ช่วยอำนวยความสะดวกได้เยอะมากถ้าใช้เป็น แล้วคุณละลองใช้แล้วหรือยัง มาเล่าให้ผมฟังด้วยสิครับ สวัสดีครับ</p><h4 name="b0c3" id="b0c3" class="graf graf--h4 graf-after--p">References:</h4><ul class="postList"><li name="292b" id="292b" class="graf graf--li graf-after--h4 graf--trailing"><a href="https://laravel.com/docs/5.4/middleware" data-href="https://laravel.com/docs/5.4/middleware" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">https://laravel.com/docs/5.4/middleware</a></li></ul></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/8c256078e183"><time class="dt-published" datetime="2017-08-07T17:00:00.000Z">August 7, 2017</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B9%82%E0%B8%99%E0%B9%89%E0%B8%95-middleware-%E0%B9%83%E0%B8%99-laravel-framework-8c256078e183" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

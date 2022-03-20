@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>ทดลองใช้ Eloquent บน Slim 3</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">ทดลองใช้ Eloquent บน Slim 3</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="bfaf" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="5d3c" id="5d3c" class="graf graf--h3 graf--leading graf--title">ทดลองใช้ Eloquent บน Slim 3</h3><p name="c945" id="c945" class="graf graf--p graf-after--h3">Slim เป็นอีกหนึ่ง framework ในภาษา php ที่เน้นความเรียบงานและรวดเร็วในการพัฒนาและเพิ่งออกเวอร์ชัน 3 มาเมื่อต้นเดือนธันวาที่ผ่านมานี้เอง วันนี้ผมจะลองเอามาใช้คู่กับ Eloquent กัน โดยโครงสร้างของโปรเจคตัวอย่างดังนี้</p><pre name="4beb" id="4beb" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">app/<br>    models/Student.php<br>    models/Instructor.php<br>public/<br>    .htaccess<br>    index.php<br>composer.json</code></pre><p name="89da" id="89da" class="graf graf--p graf-after--pre">เริ่มที่ composer.json กันก่อน ที่แปลกหน่อยคือผมจะใช้ composer เพื่อความสะดวกในการโหลด models</p><pre name="e2e0" id="e2e0" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">// composer.json<br>{<br>    &quot;require&quot;: {<br>        &quot;slim/slim&quot;: &quot;^3.0&quot;,<br>        &quot;illuminate/database&quot;: &quot;^5.2&quot;<br>    },<br>    &quot;autoload&quot;: {<br>        &quot;classmap&quot; : [<br>            &quot;app/models&quot;<br>        ]<br>    }<br>}</code></pre><p name="8478" id="8478" class="graf graf--p graf-after--pre">พระเอกของเรา public/index.php ที่เรียก autoload ของ composer และทำการบูต Eloquent</p><pre name="f2db" id="f2db" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">// public/index.php<br>require &#39;../vendor/autoload.php&#39;;</code></pre><pre name="6564" id="6564" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$database = array(<br>    &#39;driver&#39; =&gt; &#39;mysql&#39;,<br>    &#39;database&#39; =&gt; &#39;school&#39;,<br>    &#39;host&#39; =&gt; &#39;localhost&#39;,<br>    &#39;username&#39; =&gt; &#39;username&#39;,<br>    &#39;password&#39; =&gt; &#39;password&#39;,<br>    &#39;charset&#39; =&gt; &#39;utf8&#39;,<br>    &#39;collation&#39; =&gt; &#39;utf8_unicode_ci&#39;,<br>    &#39;prefix&#39;    =&gt; &#39;&#39;,<br>);</code></pre><pre name="7a15" id="7a15" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">use IlluminateDatabaseCapsuleManager as Capsule;<br>$capsule = new Capsule;<br>$capsule-&gt;addConnection($database);<br>$capsule-&gt;setAsGlobal();<br>$capsule-&gt;bootEloquent();</code></pre><pre name="4f08" id="4f08" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$app = new SlimApp;</code></pre><pre name="a38f" id="a38f" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$app-&gt;get(&#39;/students/{studentId}&#39;, function($request, $response) {<br>    $studentId = $request-&gt;getAttribute(&#39;studentId&#39;);<br>    $student = Student::find($studentId);<br>    // ...<br>});</code></pre><pre name="68ad" id="68ad" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">$app-&gt;run();</code></pre><pre name="e9ac" id="e9ac" class="graf graf--pre graf-after--pre">แล้วสุดท้ายก็สร้าง models ตามตารางที่เราต้องการ</pre><pre name="0ee3" id="0ee3" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// models/Student.php<br>class Student extends IlluminateDatabaseEloquentModel<br>{<br>    protected $table = &#39;student&#39;;</code></pre><pre name="c79a" id="c79a" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">public function adviser()<br>    {<br>        return $this-&gt;belongsTo(&#39;Instructor&#39;);<br>    }<br>}</code></pre><pre name="8977" id="8977" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// models/Instructor.php<br>class Instructor extends IlluminateDatabaseEloquentModel<br>{<br>    protected $table = &#39;instructor&#39;;</code></pre><pre name="e904" id="e904" class="graf graf--pre graf-after--pre graf--trailing"><code class="markup--code markup--pre-code">public function advisees()<br>    {<br>        return $this-&gt;hasMany(&#39;Student&#39;);<br>    }<br>}</code></pre></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/19dcb1fe9542"><time class="dt-published" datetime="2015-12-23T17:00:00.000Z">December 23, 2015</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%97%E0%B8%94%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B9%83%E0%B8%8A%E0%B9%89-eloquent-%E0%B8%9A%E0%B8%99-slim-3-19dcb1fe9542" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

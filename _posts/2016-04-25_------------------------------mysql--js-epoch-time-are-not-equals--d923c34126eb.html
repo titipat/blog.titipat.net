@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>เพราะเวลาของสองเราไม่เท่ากัน (mysql, js epoch time are not equals)</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">เพราะเวลาของสองเราไม่เท่ากัน (mysql, js epoch time are not equals)</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="07f0" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="d898" id="d898" class="graf graf--h3 graf--leading graf--title">เพราะเวลาของสองเราไม่เท่ากัน (mysql, js epoch time are not equals)</h3><p name="54fa" id="54fa" class="graf graf--p graf-after--h3">เรื่องมันมีอยู่ว่า ผมเก็บข้อมูล timestamp ไว้ใน mysql แล้วต้องการนำมาแสดงผลเฉพาะเวลาบน angularjs ซึ่งแน่นอนว่าทุกอย่างควรจะจบอย่างง่ายดายด้วยการใช้ date filter ว่า</p><pre name="8223" id="8223" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">{{ created_at | date : &#39;HH:mm&#39; }}</code></pre><p name="1efb" id="1efb" class="graf graf--p graf-after--pre">แต่พอใช้จริงแล้วปรากฏว่าเวลาที่ได้มันมั่วสิ้นดี เอาล่ะงั้นใจเย็นๆ แล้วลอง debug ดูเริ่มจากการดูค่า epoch time ที่ได้จาก mysql</p><pre name="fd73" id="fd73" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">mysql&gt; select unix_timestamp(current_timestamp);<br>+-----------------------------------+<br>| unix_timestamp(current_timestamp) |<br>+-----------------------------------+<br>|                        1461632162 |<br>+-----------------------------------+</code></pre><p name="7588" id="7588" class="graf graf--p graf-after--pre">แล้วมาดู epoch time ของ javascript กันบ้าง</p><pre name="9eb7" id="9eb7" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">&gt; new Date().valueOf()<br>1461632189808</code></pre><p name="1ea8" id="1ea8" class="graf graf--p graf-after--pre">อ้าว ค่ามันไม่เหมือนกันนิ เหมือนว่าของ js จะมากกว่าอยู่ 1000 เท่า แล้วหลังจากได้สงบสติอารมณ์แล้วผมก็สังเกตได้ว่า</p><ul class="postList"><li name="75d2" id="75d2" class="graf graf--li graf-after--p">mysql มี epoch time เป็นหน่วย second</li><li name="c59b" id="c59b" class="graf graf--li graf-after--li">js มีหน่วย epoch time เป็น millisecond</li></ul><h4 name="490f" id="490f" class="graf graf--h4 graf-after--li">วิธีการแก้ไข</h4><p name="1727" id="1727" class="graf graf--p graf-after--h4">ถ้ารู้มันห่างกันเท่าไหร่ก็จับทำให้มันเท่ากันเสียสิ แน่นอนก็ให้คูณ 1000 เข้าไปตอนแสดงผลก็เรียบร้อยแล้ว</p><pre name="60a5" id="60a5" class="graf graf--pre graf-after--p graf--trailing"><code class="markup--code markup--pre-code">{{ created_at * 1000 | date : &#39;HH:mm&#39; }}</code></pre></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/d923c34126eb"><time class="dt-published" datetime="2016-04-25T17:00:00.000Z">April 25, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B9%80%E0%B8%9E%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B9%80%E0%B8%A7%E0%B8%A5%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%AA%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%A3%E0%B8%B2%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B9%80%E0%B8%97%E0%B9%88%E0%B8%B2%E0%B8%81%E0%B8%B1%E0%B8%99-mysql-js-epoch-time-are-not-equals-d923c34126eb" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

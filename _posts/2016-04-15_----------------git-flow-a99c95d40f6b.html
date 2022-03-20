@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>บันทึกย่อการใช้ git flow</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">บันทึกย่อการใช้ git flow</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="5ca3" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="ea46" id="ea46" class="graf graf--h3 graf--leading graf--title">บันทึกย่อการใช้ git flow</h3><p name="05b7" id="05b7" class="graf graf--p graf-after--h3">Git เป็นอีกหนึ่ง version control ที่ได้รับความนิยมมากในปัจจุบัน และมีแนวทางหรือ style guide เกิดขึ้นมากมาย หนึ่งในนั้นคือรูปแบบการใช้งานที่เรียกว่า git flow</p><p name="052f" id="052f" class="graf graf--p graf-after--p">การใช้งาน git ก่อนหน้านี้ผมจะใช้เพียงแค่ 2 branch ได้แก่ <code class="markup--code markup--p-code">master</code> ซึ่งจะต้องพร้อมสำหรับ deployment ตลอดเวลา และการพัฒนาใดๆ จะถูกทำเฉพาะที่ <code class="markup--code markup--p-code">develop</code> เท่านั้น</p><p name="b810" id="b810" class="graf graf--p graf-after--p">Git flow นั้นเป็นอีกหนึ่งวิธีในการทำงานกับ git โดยใช้ความสามารถของ branch ให้เป็นประโยชน์ ด้วยเพิ่มประเภทของ branch ได้แก่ <code class="markup--code markup--p-code">feature</code>, <code class="markup--code markup--p-code">release</code> และ <code class="markup--code markup--p-code">hotfix</code> branch</p><h4 name="4434" id="4434" class="graf graf--h4 graf-after--p">Feature branch</h4><p name="78ff" id="78ff" class="graf graf--p graf-after--h4"><strong class="markup--strong markup--p-strong">เงื่อนไข</strong></p><ul class="postList"><li name="8dfe" id="8dfe" class="graf graf--li graf-after--p">สร้างจาก** <code class="markup--code markup--li-code">develop</code></li><li name="2f0f" id="2f0f" class="graf graf--li graf-after--li">ต้องรวมเข้ากับ <code class="markup--code markup--li-code">develop</code></li></ul><p name="5beb" id="5beb" class="graf graf--p graf-after--li">Feature branch จะถูกใช้เมื่อมีการเพิ่มอะไรใหม่ๆ ให้กับโปรแกรม ตัวอย่างการตั้งชื่อ เช่น <code class="markup--code markup--p-code">feature-facebook-sign-in</code> เป็นต้น และเมื่อเสร็จสิ้นการพัฒนาก็จะนำกลับไปรวมกับ <code class="markup--code markup--p-code">develop</code></p><h4 name="e10f" id="e10f" class="graf graf--h4 graf-after--p">Release branch</h4><p name="cb69" id="cb69" class="graf graf--p graf-after--h4"><strong class="markup--strong markup--p-strong">เงื่อนไข</strong></p><ul class="postList"><li name="d66f" id="d66f" class="graf graf--li graf-after--p">สร้างจาก <code class="markup--code markup--li-code">develop</code></li><li name="3485" id="3485" class="graf graf--li graf-after--li">ต้องรวมเข้ากับ <code class="markup--code markup--li-code">master</code> และ <code class="markup--code markup--li-code">develop</code></li></ul><p name="5cf3" id="5cf3" class="graf graf--p graf-after--li">Release branch จะถูกใช้เมื่อเราต้องการทำ version release การตั้งชื่อจะตั้งเป็น version ที่ต้องการ release เช่น <code class="markup--code markup--p-code">release-1.2.0</code> จะหมายความว่าเราจะ release version 1.2.0 เมื่อเราเสร็จสิ้นการทำงานกับ release branch แล้วชื่อจะถูกนำไปสร้างเป็น tag และทำการรวมกลับไปยัง <code class="markup--code markup--p-code">master</code> และ <code class="markup--code markup--p-code">develop</code></p><h4 name="444c" id="444c" class="graf graf--h4 graf-after--p">Hotfix branch</h4><p name="1927" id="1927" class="graf graf--p graf-after--h4"><strong class="markup--strong markup--p-strong">เงื่อนไข</strong></p><ul class="postList"><li name="3ba9" id="3ba9" class="graf graf--li graf-after--p">สร้างจาก <code class="markup--code markup--li-code">master</code></li><li name="9607" id="9607" class="graf graf--li graf-after--li">ต้องรวมเข้ากับ <code class="markup--code markup--li-code">master</code> และ <code class="markup--code markup--li-code">develop</code></li></ul><p name="342a" id="342a" class="graf graf--p graf-after--li">สำหรับ hotfix branch การใช้งานจะคล้ายๆ กับ release branch คือสร้างเป็นชื่อของ version ที่ต้องการ เช่น <code class="markup--code markup--p-code">hotfix-1.2.0.1</code> เมื่อทำงานเสร็จจะถูกนำกลับไปรวมกับ <code class="markup--code markup--p-code">master</code> และ <code class="markup--code markup--p-code">develop</code> พร้อมสร้าง tag เช่นเดียวกัน แต่จะต่างกันที่จะเริ่มสร้างจาก <code class="markup--code markup--p-code">master</code> เพื่อจุดประสงค์แก้ไขบางอย่างของโปรแกรมใน production version</p><h3 name="a986" id="a986" class="graf graf--h3 graf-after--p">ความเห็นหลังจากได้ลองใช้</h3><p name="573e" id="573e" class="graf graf--p graf-after--h3">หลังจากที่ผมได้ทดลองใช้ git flow แล้วมีความเห็นคือ</p><ul class="postList"><li name="bc29" id="bc29" class="graf graf--li graf-after--p">การใช้ feature branch ทำให้เราทำงานแบบมีเป้าหมาย ตัวอย่าง ถ้านี้คือ <code class="markup--code markup--li-code">feature-export-pdf</code> คุณคงไม่อย่างจะ commit ว่า fix login message เข้าไปหรอกนะ</li><li name="e2d8" id="e2d8" class="graf graf--li graf-after--li">การใช้ release branch เมื่อใช้กับการทำงานเป็น sprint แล้วสามารถนำ backlog ที่ทำเสร็จมาออกเป็น changelog ได้เลย</li><li name="b4c4" id="b4c4" class="graf graf--li graf-after--li">การ release, hotfix มีการบันทึกไว้เพราะเราต้องสร้าง branch เป็นชื่อ tag นั้นเอง</li><li name="539c" id="539c" class="graf graf--li graf-after--li graf--trailing">เนื่องจากในการใช้ release, hotfix ซึ่งจะรวมกลับไปทั้ง master และ develop ทำให้ทั้ง master และ develop มี configurate file ที่เหมือนกันเลย ดังนั้นทีมเลยต้องปรับตัวกับการใช้ environment variable หรือแนวคิดด้าน resource ambassador มากขึ้น</li></ul></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/a99c95d40f6b"><time class="dt-published" datetime="2016-04-15T17:00:00.000Z">April 15, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%9A%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%B6%E0%B8%81%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%83%E0%B8%8A%E0%B9%89-git-flow-a99c95d40f6b" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

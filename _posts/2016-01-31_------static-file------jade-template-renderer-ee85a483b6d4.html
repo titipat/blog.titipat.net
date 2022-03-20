@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>สร้าง static file ด้วย jade template renderer</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">สร้าง static file ด้วย jade template renderer</h1>
+</header>
+<section data-field="body" class="e-content">
+<section name="eb15" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="a3e2" id="a3e2" class="graf graf--h3 graf--leading graf--title">สร้าง static file ด้วย jade template renderer</h3><p name="ccfc" id="ccfc" class="graf graf--p graf-after--h3">Static site generator เป็นอีกหนึ่งรูปแบบเว็บที่เริ่มมาแรงในช่วงหลังนี้ ด้วยความเรียบง่ายจาก html และ javascript ทำให้ไม่ต้องจัดการ service side environment ให้ปวดหัวด้วย ด้วยจุดเด่นนี้ผมเลยจะนำมาประยุกต์กับงานของผม</p><p name="3215" id="3215" class="graf graf--p graf-after--p">เรื่องมีอยู่ว่าที่ทำงานผมต้องทำการประกาศผลบางอย่างซึ่งจะทำให้ช่วงเวลานั้นมีผู้เข้ามาใช้งานเว็บจำนวนมหาศาล การใช้งานไม่ได้กิน resource มากมายแต่ด้วยปริมาณของ request ที่เยอะกลับทำให้ network มักบินไปเสียก่อน เลยเกิดเป็นความคิดที่จะทำ static file แล้วทำ caching เอาไว้ แล้วไหนๆ จะใช้ static file แล้วก็ลองใช้การ render ผ่าน template engine ดูเลยละกัน</p><p name="50c1" id="50c1" class="graf graf--p graf-after--p">เริ่มจากเขียน template ไฟล์ ผมเลือกใช้ jade engine นะครับ</p><pre name="c36e" id="c36e" class="graf graf--pre graf-after--p"><code class="markup--code markup--pre-code">h1 #{product.title}</code></pre><pre name="b89b" id="b89b" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">table<br>  tr<br>    th price<br>    th description<br>  tr<br>    td #{product.price}<br>    td #{product.description}</code></pre><pre name="9f50" id="9f50" class="graf graf--pre graf-after--pre">แล้วก็ทำการเรียกข้อมูลมา render ด้วย template ที่เราเตรียมไว้</pre><pre name="90bc" id="90bc" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">var jade = require(&#39;jade&#39;);<br>var fs = require(&#39;fs&#39;);<br>var mysql = require(&#39;mysql&#39;);<br>var connection = mysql.createConnection({<br>  host: &#39;localhost&#39;,<br>  user: &#39;foo&#39;,<br>  password: &#39;bar&#39;,<br>  database: &#39;buzz&#39;<br>});</code></pre><pre name="110e" id="110e" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">connection.connect();</code></pre><pre name="f242" id="f242" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">connection.query(&#39;SELECT * FROM products&#39;, function(err, products) {<br>  products.forEach(function(product, index, array) {<br>    // assume<br>    // var product = {<br>    // id: 1234,<br>    // title: Notebook,<br>    // price: &#39;50&#39;,<br>    // description: &#39;A simple notebook&#39;<br>    // };</code></pre><pre name="92ef" id="92ef" class="graf graf--pre graf-after--pre"><code class="markup--code markup--pre-code">// Initiate renderer<br>    var fn = jade.complieFile(&#39;templates/products.jade&#39;);<br>    // Do rendering<br>    var html = fn({<br>      product: product,<br>      // ...<br>    });<br>    // Finally, write rendered files<br>    fs.writeFile(&#39;output/products/&#39; + product.id + &#39;.html&#39;, html);<br>  });<br>});</code></pre><pre name="ca27" id="ca27" class="graf graf--pre graf-after--pre">สุดท้ายเราจะได้ไฟล์ html หน้าตาราวๆ นี้ครับ</pre><h3 name="6128" id="6128" class="graf graf--h3 graf-after--pre"><code class="markup--code markup--h3-code">Notebook</code></h3><pre name="72a6" id="72a6" class="graf graf--pre graf-after--h3"><code class="markup--code markup--pre-code u-paddingRight0 u-marginRight0">price    description        50    A simple notebook</code></pre><pre name="f27c" id="f27c" class="graf graf--pre graf-after--pre graf--trailing">ref <a href="http://jade-lang.com/api/" data-href="http://jade-lang.com/api/" class="markup--anchor markup--pre-anchor" rel="noopener" target="_blank">http://jade-lang.com/api/</a></pre></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/ee85a483b6d4"><time class="dt-published" datetime="2016-01-31T17:00:00.000Z">January 31, 2016</time></a>.</p><p><a href="https://medium.com/@titipat/%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87-static-file-%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-jade-template-renderer-ee85a483b6d4" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>

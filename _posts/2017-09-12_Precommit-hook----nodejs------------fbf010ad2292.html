@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Precommit-hook บน nodejs ทำงานยังไง</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">Precommit-hook บน nodejs ทำงานยังไง</h1>
+</header>
+<section data-field="subtitle" class="p-summary">
+วันก่อนผมนำ lib ที่ชื่อ precommit-hook มาใช้กับ nodejs repository ที่พัฒนาร่วมกันหลายคนเพื่อบังคับให้ lint และ test ทุกครั้งก่อนจะ commit…
+</section>
+<section data-field="body" class="e-content">
+<section name="77a9" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><figure name="f7d7" id="f7d7" class="graf graf--figure graf--leading"><img class="graf-image" data-image-id="1*b8MOJOF-sHORZR4al8i2Yw.jpeg" data-width="2048" data-height="389" src="https://cdn-images-1.medium.com/max/800/1*b8MOJOF-sHORZR4al8i2Yw.jpeg"></figure><h3 name="e997" id="e997" class="graf graf--h3 graf-after--figure graf--title">Precommit-hook บน nodejs ทำงานยังไง</h3><p name="fa49" id="fa49" class="graf graf--p graf-after--h3">วันก่อนผมนำ lib ที่ชื่อ <a href="https://www.npmjs.com/package/precommit-hook" data-href="https://www.npmjs.com/package/precommit-hook" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">precommit-hook</a> มาใช้กับ nodejs repository ที่พัฒนาร่วมกันหลายคนเพื่อบังคับให้ lint และ test ทุกครั้งก่อนจะ commit ใดๆ แล้วเนื่องจาก <a href="https://medium.com/@chawasit" data-href="https://medium.com/@chawasit" class="markup--anchor markup--p-anchor" rel="nofollow" target="_blank">@chawasit</a> ถามว่าเบื้องหลังมันทำงานยังไง วันนี้เลยจะเล่าให้ฟังครับ</p><h4 name="1742" id="1742" class="graf graf--h4 graf-after--p">Git hooks</h4><p name="3f3e" id="3f3e" class="graf graf--p graf-after--h4">คือสคริปที่จะรันทุกครั้งที่เราทำบางอย่างบน git เช่น pre-commit, post-commit, pre-push เป็นต้น สคริปพวกนี้สามารถนำไปใช้ได้ทั้ง local และ remote repository ซึ่งในครั้งนี้ผมรันแบบ local เพื่อจุดประสงค์ให้โค้ดที่จะถูกรวมเข้ากับคนอื่นต้องผ่านการ lint ด้วย coding standard และผ่านการ test เสียก่อน</p><h4 name="ba45" id="ba45" class="graf graf--h4 graf-after--p">แล้วมันทำงานยังไงบน nodejs development environment</h4><pre name="3c85" id="3c85" class="graf graf--pre graf-after--h4">npm install --save-dev precommit-hook standard </pre><p name="112d" id="112d" class="graf graf--p graf-after--pre">เมื่อเราพิมพ์คำสั่งด้านบนไปแล้ว npm ซึ่งเป็น dependency manager ของภาษา nodejs ก็จะดาวน์โหลด library ที่เราต้องการมาให้ แล้วก็ถึงเวลาพระเอกของเราออกโรง ภายใน <a href="https://github.com/nlf/precommit-hook/blob/master/package.json" data-href="https://github.com/nlf/precommit-hook/blob/master/package.json" class="markup--anchor markup--p-anchor" rel="nofollow noopener" target="_blank">package.json</a> ของ precommit-hook จะมีส่วนหนึ่งเขียนว่า</p><pre name="a60b" id="a60b" class="graf graf--pre graf-after--p">&quot;scripts&quot;: { &quot;install&quot;: &quot;node bin/install&quot; }</pre><p name="5150" id="5150" class="graf graf--p graf-after--pre">แปลว่าทุกครั้งที่ library นี้ถูก install สคริปที่ชื่อ <a href="https://github.com/nlf/precommit-hook/blob/master/bin/install" data-href="https://github.com/nlf/precommit-hook/blob/master/bin/install" class="markup--anchor markup--p-anchor" rel="nofollow noopener" target="_blank">bin/install</a> จะถูกรัน ซึ่งถ้าให้ไล่ต่อก็จะยาวไปผมจึงขอย่อว่า precommit-hook เรียก library <a href="https://github.com/nlf/git-validate" data-href="https://github.com/nlf/git-validate" class="markup--anchor markup--p-anchor" rel="nofollow noopener" target="_blank">git-validate</a> อีกทีเพื่อสร้างไฟล์ .git/hooks/pre-commit และ .git/hooks/pre-push ลงในเครื่องเราพร้อมกับย้ายไฟล์เดิมไปเป็นชื่อ .backup ทำให้จากนี้ไปทุกครั้งที่เราทำการ commit ก็จะเกิดกระบวนการ hook script ขึ้น และผมจะบังคับให้ทุกครั้งต้องผ่าน lint และ test ด้วยการเพิ่มส่วนต่อไปในลงใน package.json ในงานของตัวเอง</p><pre name="b7e4" id="b7e4" class="graf graf--pre graf-after--p">&quot;pre-commit&quot;: [ &quot;lint&quot;, &quot;test&quot; ]</pre><p name="e9d2" id="e9d2" class="graf graf--p graf-after--pre">สุดท้าย เราจะได้ development workflow ที่ผู้พัฒนาหลายคนมี coding standard ร่วมกันผ่านโดยใช้การ lint ด้วย coding standard ที่ชื่อ <a href="https://standardjs.com/" data-href="https://standardjs.com/" class="markup--anchor markup--p-anchor" rel="nofollow noopener" target="_blank">standard</a> และต้องผ่านการเทสเหมือนกันทุกครั้ง</p><p name="e369" id="e369" class="graf graf--p graf-after--p">แล้วนี้ก็เป็นวิธีการทำงานร่วมกันของกลุ่มผม แล้วของทุกคนเป็นอย่างไรครับ เล่าให้ผมฟังด้วยนะ</p><h4 name="21b9" id="21b9" class="graf graf--h4 graf-after--p">References</h4><div name="5dbc" id="5dbc" class="graf graf--mixtapeEmbed graf-after--h4"><a href="https://www.atlassian.com/git/tutorials/git-hooks" data-href="https://www.atlassian.com/git/tutorials/git-hooks" class="markup--anchor markup--mixtapeEmbed-anchor" title="https://www.atlassian.com/git/tutorials/git-hooks"><strong class="markup--strong markup--mixtapeEmbed-strong">Git Hooks | Atlassian Git Tutorial</strong><br><em class="markup--em markup--mixtapeEmbed-em">Git hooks: scripts that run automatically when an event occurs in a repo. Trigger customizable actions at key points in…</em>www.atlassian.com</a><a href="https://www.atlassian.com/git/tutorials/git-hooks" class="js-mixtapeImage mixtapeImage mixtapeImage--empty u-ignoreBlock" data-media-id="6f1553696db80d404b67af39a77dea07"></a></div><div name="1e72" id="1e72" class="graf graf--mixtapeEmbed graf-after--mixtapeEmbed graf--trailing"><a href="https://www.npmjs.com/package/precommit-hook" data-href="https://www.npmjs.com/package/precommit-hook" class="markup--anchor markup--mixtapeEmbed-anchor" title="https://www.npmjs.com/package/precommit-hook"><strong class="markup--strong markup--mixtapeEmbed-strong">precommit-hook</strong><br><em class="markup--em markup--mixtapeEmbed-em">A useful pre-commit hook for git based projects that lints and runs npm test</em>www.npmjs.com</a><a href="https://www.npmjs.com/package/precommit-hook" class="js-mixtapeImage mixtapeImage u-ignoreBlock" data-media-id="b4c0c137dd168f0b2b2dfbf841c864ba" data-thumbnail-img-id="0*LQpsycApcw-tFLCH." style="background-image: url(https://cdn-images-1.medium.com/fit/c/160/160/0*LQpsycApcw-tFLCH.);"></a></div></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@titipat" class="p-author h-card">Titipat</a> on <a href="https://medium.com/p/fbf010ad2292"><time class="dt-published" datetime="2017-09-12T10:51:30.790Z">September 12, 2017</time></a>.</p><p><a href="https://medium.com/@titipat/precommit-hook-%E0%B8%9A%E0%B8%99-nodejs-%E0%B8%97%E0%B8%B3%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%A2%E0%B8%B1%E0%B8%87%E0%B9%84%E0%B8%87-fbf010ad2292" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on March 20, 2022.</p></footer></article></body></html>
